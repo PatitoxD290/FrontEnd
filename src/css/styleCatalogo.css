@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.titulo-catalogo {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+  
+
+.catalogo-background {
+    padding: 20px 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') no-repeat center center/cover;
+    background-size: cover;        /* Asegura que cubra todo el fondo */
+    background-position: center;   /* Centra la imagen */
+    background-repeat: no-repeat;  /* Evita que se repita */
+    background-attachment: fixed;  /* Hace que se quede fija al hacer scroll (opcional) */
+}
+
+  
+/* PRODUCTOS */
+.producto {
+    background-color: rgba(100, 41, 41, 0.8);  
+    border-radius: 10px;
+    margin: 10px;
+    padding: 15px;
+    text-align: center;
+    width: 310px;
+    margin-bottom: 20px; /* Espaciado entre productos */
+    transition: transform 0.3s ease;
+}
+
+.producto h2 {
+    margin-top: 15px;
+    font-size: 25px;
+    color: #ffffff;
+}
+
+.producto p {
+    font-size: 20px;
+    color: #ddd;
+    font-weight: bold;
+}
+
+.producto label{
+    color: #ddd;
+    margin-bottom: 20px;
+    
+}
+
+.producto input{
+    margin-bottom: 20px;
+}
+
+.producto img { 
+    width: 100%;           
+    height: 250px;         
+    object-fit: cover;     
+    border-radius: 10px;   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.producto:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Carrito de compras como ventanita */
+.carrito-contenedor {
+  position: fixed;
+  top: 80px;  /* Ajusta este valor para bajarlo */
+  right: 20px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+
+.carrito-ventana {
+  margin-top: 10px;
+  padding: 10px;
+  width: 350px;
+  border: 1px solid #ddd;
+  background-color: rgba(255,255,255,0.95);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+
+.producto-carrito {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+#carritoLink img {
+    cursor: pointer;
+}
+
+#carritoLink img.has-items {
+    filter: brightness(1.5);
+}
+
+#carritoLink::after {
+    content: attr(data-count);
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.5rem;
+    font-weight: bold;
+}
+
+
+/* INPUT DE CANTIDAD */
+.cantidad-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem; /* equivalente a mb-2 */
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.cantidad-label {
+  font-weight: 500;
+  color: #740000;
+  font-size: 16px;
+}
+
+.cantidad-input {
+  width: 70px;
+  padding: 6px 10px;
+  border: 2px solid #740000;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #740000;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cantidad-input:focus {
+  outline: none;
+  border-color: #5c0000;
+  box-shadow: 0 0 6px rgba(116, 0, 0, 0.4);
+}
+
+.cantidad-input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+
+/* Estilo de Botones */
+.btn-add {
+    background-color: #e93b50; /* Color primario */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    color: white; /* Texto blanco */
+    padding: 10px 15px; /* Espaciado */
+    transition: background-color 0.3s; /* Transición suave */
+    font-size: 20px;
+}
+
+.btn-add:hover {
+    background-color: #b31c2d; /* Color al pasar el ratón */
+}
+
+.btn-pay {
+    background-color: #e93b50; /* Color primario */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    color: white; /* Texto blanco */
+    padding: 10px 15px; /* Espaciado */
+    transition: 0.3s; /* Transición suave */
+    font-size: 15px;
+}
+
+.btn-pay:hover {
+    background-color: #b31c2d; /* Color al pasar el ratón */
+}
+
+.btn-delet {
+    background-color: #9d0000; /* Color primario */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    height: 35px;
+    width: 30px;
+    color: white; /* Texto blanco */
+    font-size: 12px;
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+.btn-delet:hover {
+    background-color: #9d0000; /* Color al pasar el ratón */
+}
+
+.btn-carrito {
+    background-color: #640000;
+    border: 1px solid #640000; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    height: 40px;
+    width: 100px;      
+    color: rgb(255, 255, 255); /* Texto blanco */
+    font-size: 70%;
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+.btn-carrito:hover {
+    background-color: #ffffff;
+    color: #640000; /* Color al pasar el ratón */
+}
+
+
+/* PAGINACIÓN PERSONALIZADA */
+.CustomPagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.CustomPagination .pagination {
+  padding: 0;
+}
+
+.CustomPagination .page-item {
+  margin: 0 5px;
+}
+
+.CustomPagination .page-link {
+  color: #740000;
+  background-color: #fff;
+  border: 2px solid #740000;
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.CustomPagination .page-link:hover {
+  background-color: #740000;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(116, 0, 0, 0.4);
+}
+
+.CustomPagination .page-item.active .page-link {
+  background-color: #740000;
+  color: #fff;
+  border-color: #740000;
+  box-shadow: 0 3px 12px rgba(116, 0, 0, 0.5);
+}
+
+.CustomPagination .page-item.disabled .page-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

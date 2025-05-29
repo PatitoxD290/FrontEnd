@@ -1,0 +1,297 @@
+/* global.css */
+
+/* Reset general y tipografía */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background: url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') center center/cover no-repeat fixed !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Fondo e imagen para modales y páginas de auth */
+.modal-content, .auth-required-page {
+  background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.9)),
+              url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') center center/cover no-repeat;
+}
+
+.container-admin {
+  padding: 2rem !important;
+  margin: 3rem auto !important;
+  max-width: 1000px;
+}
+
+.admin-title {
+  color: #ffffff; /* Blanco puro */
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.9),
+    -1px -1px 3px rgba(0, 0, 0, 0.7); /* Sombra doble para mayor contraste */
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+
+/* Modal personalizado */
+.modal-content {
+  border-radius: 12px !important;
+  box-shadow: 0 0 15px rgba(116, 0, 0, 0.3) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  border: 2px solid #740000 !important;
+  text-align: center !important;
+  padding: 1rem 2rem !important;
+}
+
+
+/* Tabla centrada y estilizada */
+.table {
+  width: 100%;
+  margin: 2rem auto;
+  background-color: rgba(255, 255, 255, 0.97);
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #740000;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 12px;
+}
+
+.table td {
+  background-color: #fefefe;
+  color: #333;
+  padding: 10px;
+  font-size: 0.95rem;
+  border-top: 1px solid #ddd;
+}
+
+/* Alternancia de filas */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f1f1;
+}
+
+
+/* Título modal */
+.modal-title {
+  color: #740000 !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Labels */
+label {
+  font-weight: 600 !important;
+  color: #740000;
+  font-size: 1rem !important;
+  display: block !important;
+  text-align: left !important;
+  margin-bottom: 0.3rem !important;
+}
+
+/* Inputs */
+.form-control {
+  border: 1.5px solid #740000 !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  transition: border-color 0.3s ease !important;
+  font-family: 'Montserrat', sans-serif !important;
+  margin-bottom: 1rem !important;
+}
+
+.form-control:focus {
+  border-color: #a83232 !important;
+  box-shadow: 0 0 6px #a83232 !important;
+  outline: none !important;
+}
+
+/* Feedback de error */
+.invalid-feedback {
+  color: #a00000 !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  margin-top: -0.8rem !important;
+  margin-bottom: 0.8rem !important;
+}
+
+/* Botones generales (editar, eliminar) */
+.btn-edit {
+  background-color: #ffc107 !important;
+  border: none !important;
+  color: black !important;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800 !important; /* tono más oscuro del amarillo */
+  color: white !important;
+}
+
+
+.btn-delete {
+  background-color: #74000c !important;
+  border: none !important;
+  color: white !important;
+}
+
+.btn-delete:hover {
+  background-color: #874141 !important; /* más oscuro del rojo */
+}
+
+/* Botón principal para agregar con estilo personalizado */
+.btn-add-primary {
+  background-color: #e93b50 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+.btn-add-primary:hover {
+  background-color: #b31c2d !important;
+}
+
+
+/* Centrar contenido en formularios y modal */
+.modal-body form {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.modal-body form > * {
+  width: 100% !important;
+  max-width: 400px !important;
+}
+
+
+/* SweetAlert2 custom popup */
+.swal-custom-popup {
+  border-radius: 15px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  padding: 2rem !important;
+}
+
+.swal-title {
+  color: #740000 !important;
+  font-size: 1.8rem !important;
+}
+
+.swal-confirm-btn {
+  background-color: #a00000 !important;
+  color: white !important;           /* ✅ Esto es lo que hace que el texto sea blanco */
+  border-radius: 8px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+}
+
+.swal-cancel-btn {
+  background-color: #555 !important;
+  border-radius: 8px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-size: 1rem !important;
+  color: white !important;
+}
+
+
+/* PAGINACION */
+.Pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.Pagination .page-item .page-link {
+  color: #740000;
+  border: 1px solid #740000;
+  margin: 0 3px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.Pagination .page-item.active .page-link {
+  background-color: #740000;
+  color: white;
+  border-color: #740000;
+}
+
+.Pagination .page-item .page-link:hover {
+  background-color: #5c0000;
+  color: white;
+  border-color: #5c0000;
+}
+
+
+/* AUTHREQUIRED */
+.auth-required-page {
+  min-height: 100vh;
+  background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.9)),
+              url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') center center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: #740000;
+  margin-top: 1rem;
+  border-radius: 12px;
+}
+
+.auth-required-page h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #740000;
+}
+
+.auth-required-page p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.auth-required-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-login, .btn-register {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-login {
+  background-color: #740000;
+  color: white;
+}
+
+.btn-login:hover {
+  background-color: #5c0000;
+}
+
+.btn-register {
+  background-color: #a83232;
+  color: white;
+}
+
+.btn-register:hover {
+  background-color: #8c1e1e;
+}

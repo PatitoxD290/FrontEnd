@@ -1,0 +1,127 @@
+.inicio {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+}
+
+/* Sección Presentación */
+.presentacion {
+  margin-top: 3rem;
+  background-color: #ffffff;
+  color: #740000;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+}
+
+.presentacion h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.presentacion p {
+  font-size: 1.2rem;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+/* Sección Productos Destacados */
+.destacados {
+  padding: 3rem 1rem;
+  background-color: #740000;
+  text-align: center;
+}
+
+.destacados h2 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.producto-card {
+  border: 1.5px solid #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.producto-card img {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Botón "Ver catálogo completo" */
+.ver-catalogo {
+  margin-top: 2rem;
+}
+
+.ver-catalogo .btn {
+  background-color: #e93b50;
+  color: #ddd;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.ver-catalogo .btn:hover {
+  background-color: #b31c2d;
+}
+
+/* Sección Información / Contacto */
+.informacion {
+  background-color: #f9f1f1;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.informacion h2 {
+  color: #740000;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.contacto-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.contacto-grid div {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contacto-grid h5 {
+  color: #740000;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.contacto-grid a {
+  color: #2f2f2f;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contacto-grid a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive para pantallas medianas en adelante */
+@media (min-width: 768px) {
+  .contacto-grid {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+}

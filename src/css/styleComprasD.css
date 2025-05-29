@@ -1,0 +1,132 @@
+.detalles-background {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fdfdfd;
+  padding: 40px;
+  min-height: 100vh;
+  color: #333;
+}
+
+.titulo-compra {
+  margin-top: 50px;
+  text-align: center;
+  color: #800020;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.producto-detalle {
+  background: #fff;
+  border: 2px solid #80002030;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(128, 0, 32, 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+  transition: transform 0.2s ease;
+}
+
+.producto-detalle:hover {
+  transform: scale(1.01);
+}
+
+.producto-detalle h3 {
+  color: #800020;
+  margin-bottom: 10px;
+}
+
+.grupos-container {
+  margin-top: 15px;
+}
+
+.grupos-container h4 {
+  margin-bottom: 10px;
+  color: #800020;
+  font-weight: bold;
+}
+
+.grupo-item {
+  background-color: #f9f2f4;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #d9b6c1;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.grupo-item label {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 150px;
+  font-size: 14px;
+  color: #333;
+}
+
+.grupo-item input[type="text"],
+.grupo-item input[type="number"] {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.archivo-upload {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.archivo-upload label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #800020;
+}
+
+input[type="color"] {
+  width: 60px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  margin-top: 5px;
+}
+
+input[type="file"] {
+  margin-top: 5px;
+}
+
+.btn-add-group,
+.btn-delet-group {
+  background-color: #800020;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-add-group:hover,
+.btn-delet-group:hover {
+  background-color: #a32d4d;
+}
+
+.preview-imagenes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.imagen-previa {
+  width: 80px;
+  margin-right: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(128, 0, 32, 0.2);
+}
+
+button.btn-add:last-of-type {
+  display: block;
+  margin: 30px auto 0;
+  font-size: 16px;
+}

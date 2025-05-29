@@ -1,0 +1,140 @@
+.body {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') no-repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* para que no toque los bordes en móvil */
+}
+
+.container-form {
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px;
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+  background-color: transparent; /* si quieres que el fondo sea visible */
+}
+
+.information {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #e93b50;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.info-childs {
+  width: 100%;
+  padding: 30px;
+}
+
+.info-childs h2 {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.info-childs input {
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.info-childs input:hover {
+  background-color: #ffffff;
+  color: #e93b50;
+}
+
+.form-information {
+  width: 60%;
+  background-color: #ffcaca;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-information-childs h2 {
+  font-size: 2rem;
+  color: #740000;
+  margin-bottom: 20px;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 0 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form label input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}
+
+.form input[type="submit"],
+.form input[type="button"] {
+  background-color: #740000;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form input[type="submit"]:hover,
+.form input[type="button"]:hover {
+  background-color: #980202;
+}
+
+.text-center {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.text-center a {
+  color: #740000;
+  text-decoration: underline;
+}
+
+@media (max-width: 750px) {
+  .container-form {
+    flex-direction: column;
+    border-radius: 20px;
+  }
+
+  .information,
+  .form-information {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+  }
+}
