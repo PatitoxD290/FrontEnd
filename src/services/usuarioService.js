@@ -11,7 +11,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// Función para obtener todos los usuarios (requiere autenticación)
  // Función para obtener todos los usuarios (requiere autenticación)
 export const obtenerUsuarios = async (token) => {
   try {

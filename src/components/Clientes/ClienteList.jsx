@@ -52,6 +52,7 @@ const ClienteList = ({ clientes, seleccionar }) => {
             <th>Apellidos</th>
             <th>Teléfono</th>
             <th>Dirección</th>
+            <th>DNI</th> {/* Columna DNI */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -63,6 +64,7 @@ const ClienteList = ({ clientes, seleccionar }) => {
               <td>{cliente.apellidos}</td>
               <td>{cliente.telefono}</td>
               <td>{cliente.direccion}</td>
+              <td>{cliente.dni}</td>
               <td>
                 <Button className="btn-edit" onClick={() => seleccionar(cliente)}>
                   Editar

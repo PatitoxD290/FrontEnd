@@ -42,31 +42,29 @@ const LoginRegister = () => {
     setIsCodeValid(false); // Reseteamos la validación del código
   };
 
-  // Función para manejar el registro de un nuevo usuario
-  const handleRegister = async (e) => {
-    e.preventDefault();
+// Función para manejar el registro de un nuevo usuario
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    // Si aún no hemos verificado el código, no permitimos el registro
-    if (!isCodeValid) {
-      setMessage({ text: "Por favor verifica el código antes de continuar", type: "error" });
-      return;
-    }
+  // Si aún no hemos verificado el código, no permitimos el registro
+  if (!isCodeValid) {
+    setMessage({ text: "Por favor verifica el código antes de continuar", type: "error" });
+    return;
+  }
 
-    try {
-      const newUser = { user, email, password };
-      const res = await agregarUsuario(newUser); // Llamamos al servicio de registro
+  try {
+    const newUser = { user, email, password };
+    const res = await agregarUsuario(newUser); // Llamamos al servicio de registro
+    
+    // Aquí no guardamos el token porque el backend no lo devuelve
+    setMessage({ text: "¡Registro exitoso! Ahora puedes iniciar sesión.", type: "success" });
 
-      const token = res.token;
-      localStorage.setItem("token", token);
-      const decoded = jwtDecode(token); // Usamos jwtDecode aquí
-      setUser(decoded);
-      setMessage({ text: "¡Registro exitoso! Redirigiendo...", type: "success" });
-
-      setTimeout(() => navigate("/"), 1500); // Redirigimos al home
-    } catch (err) {
-      setMessage({ text: err.message || "Error en el registro", type: "error" });
-    }
-  };
+    // Cambiar a la vista de login para que el usuario pueda iniciar sesión
+    setIsLoginActive(true); 
+  } catch (err) {
+    setMessage({ text: err.message || "Error en el registro", type: "error" });
+  }
+};
 
   // Función para manejar el login de un usuario
   const handleLogin = async (e) => {

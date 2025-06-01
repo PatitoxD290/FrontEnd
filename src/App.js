@@ -9,6 +9,7 @@ import Clientes from "./pages/Clientes";
 import Catalogo from "./pages/Catalogo";
 import Pago from "./pages/Pago";
 import Navbar from "./components/shared/Navbar";
+import LogsViewer from "./pages/LogsViewer";
 import Footer from "./components/shared/Footer";
 import LoginRegister from "./pages/LoginRegister";
 import AuthRequired from './pages/AuthRequired';
@@ -53,6 +54,7 @@ const AppContent = () => {
           <Route path="/auth-required" element={<AuthRequired />} />
           <Route path="/detalles-compra" element={<DetallesCompra />} />
           <Route path="/datos-cliente" element={<DatosCliente />} />
+          <Route path="/logs" element={user ? <LogsViewer /> : <Navigate to="/acceder" />} />
           <Route path="/recuperar-contraseña" element={user ? <Navigate to="/" /> : <RecuperarContraseña />}
           />
           

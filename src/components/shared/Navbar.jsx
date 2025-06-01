@@ -10,6 +10,11 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("idCliente");
+    localStorage.removeItem("idsProducto");
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("datosCliente");
+    window.history.replaceState({}, document.title, window.location.pathname);
     setUser(null);
     navigate("/");
   };
@@ -29,6 +34,7 @@ const Navbar = () => {
                 <Nav.Link as={Link} to="/usuarios">Usuarios</Nav.Link>
                 <Nav.Link as={Link} to="/clientes">Clientes</Nav.Link>
                 <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link> {/* 🚀 Nuevo link */}
+                <Nav.Link as={Link} to="/logs">Logs</Nav.Link>
               </>
             ) : (
               <>

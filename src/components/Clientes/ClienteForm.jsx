@@ -7,6 +7,7 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
   const [apellidos, setApellidos] = useState("");
   const [telefono, setTelefono] = useState("");
   const [direccion, setDireccion] = useState("");
+  const [dni, setDni] = useState(""); // Nuevo estado para DNI
   const [errores, setErrores] = useState({});
 
   useEffect(() => {
@@ -15,11 +16,13 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
       setApellidos(clienteSeleccionado.apellidos);
       setTelefono(clienteSeleccionado.telefono);
       setDireccion(clienteSeleccionado.direccion);
+      setDni(clienteSeleccionado.dni); // Cargar el DNI si está disponible
     } else {
       setNombres("");
       setApellidos("");
       setTelefono("");
       setDireccion("");
+      setDni(""); // Limpiar el DNI
     }
     setErrores({});
   }, [clienteSeleccionado]);
@@ -32,6 +35,8 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
       nuevosErrores.telefono = "Teléfono inválido (7 a 15 dígitos)";
     }
     if (!direccion.trim()) nuevosErrores.direccion = "La dirección es obligatoria";
+    if (!dni.trim()) nuevosErrores.dni = "El DNI es obligatorio"; // Validar DNI no vacío
+    else if (dni.length > 8) nuevosErrores.dni = "El DNI no puede tener más de 8 caracteres"; // Validar longitud máxima
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
   };
@@ -47,7 +52,7 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
       return;
     }
 
-    const nuevoCliente = { nombres, apellidos, telefono, direccion };
+    const nuevoCliente = { nombres, apellidos, telefono, direccion, dni }; // Incluir DNI en el objeto cliente
 
     // Si hay un cliente seleccionado, actualizamos
     if (clienteSeleccionado) {
@@ -62,6 +67,7 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
     setApellidos("");
     setTelefono("");
     setDireccion("");
+    setDni(""); // Limpiar el campo DNI
     setErrores({});
     handleClose();
   };
@@ -124,6 +130,20 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
             />
             <Form.Control.Feedback type="invalid">
               {errores.direccion}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          {/* Campo DNI */}
+          <Form.Group className="mb-3">
+            <Form.Label>DNI</Form.Label>
+            <Form.Control
+              type="text"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+              isInvalid={!!errores.dni}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errores.dni}
             </Form.Control.Feedback>
           </Form.Group>
 

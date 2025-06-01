@@ -8,7 +8,7 @@ import {
   manejarCambioGrupo,
   manejarCambioCampoSimple,
   validarDetallesDeProductos,
-  agregarIdProductoAlStorage // <-- Importa la función para guardar en localStorage
+  obtenerIdCliente
 } from "../services/DCompraService";
 
 const DetallesCompra = () => {
@@ -23,11 +23,6 @@ const DetallesCompra = () => {
       const productos = location.state.productos;
       setProductosSeleccionados(productos);
 
-      // Guardar los ids de productos en localStorage
-      productos.forEach((producto) => {
-        agregarIdProductoAlStorage(producto.id_producto);
-      });
-
       const detallesIniciales = {};
       productos.forEach((producto) => {
         detallesIniciales[producto.id] = {
@@ -41,7 +36,6 @@ const DetallesCompra = () => {
     }
   }, [location]);
 
-  // Handlers que usan service.js para actualizar estado
   const agregarGrupoHandler = (productoId) => {
     const detallesActuales = detallesPorProducto[productoId];
     const producto = productosSeleccionados.find((p) => p.id === productoId);
@@ -88,7 +82,6 @@ const DetallesCompra = () => {
     }));
   };
 
-  // Campos directos que no tienen lógica compleja
   const manejarColorHandler = (productoId, color) => {
     setDetallesPorProducto((prev) => ({
       ...prev,
@@ -110,52 +103,23 @@ const DetallesCompra = () => {
   };
 
   const continuar = () => {
-    // Validación antes de continuar
-    for (const producto of productosSeleccionados) {
-      const detalles = detallesPorProducto[producto.id];
-      const grupos = detalles.grupos;
-
-      if (producto.cantidad > 1) {
-        const cantidadTotal = obtenerCantidadTotalPorGrupos(grupos);
-        if (cantidadTotal !== producto.cantidad) {
-          alert(
-            `La suma de cantidades para el producto "${producto.nombre}" debe ser exactamente ${producto.cantidad}.`
-          );
-          return;
-        }
-
-        for (const grupo of grupos) {
-          if (!grupo.talla) {
-            alert(
-              `Completa la talla en todos los grupos del producto "${producto.nombre}".`
-            );
-            return;
-          }
-        }
-      } else {
-        if (!detalles.talla) {
-          alert(`Completa la talla para el producto "${producto.nombre}".`);
-          return;
-        }
-      }
-
-      if (producto.nombre.toLowerCase().includes("polo personalizado")) {
-        if (!detalles.color) {
-          alert(`Selecciona un color para el producto "${producto.nombre}".`);
-          return;
-        }
-        if (!detalles.material) {
-          alert(`Selecciona un material para el producto "${producto.nombre}".`);
-          return;
-        }
-      }
+    const error = validarDetallesDeProductos(productosSeleccionados, detallesPorProducto);
+    if (error) {
+      alert(error);
+      return;
     }
 
     const datosFinales = {
       productos: productosSeleccionados,
       detalles: detallesPorProducto,
     };
-    navigate("/datos-cliente", { state: datosFinales });
+
+    const idCliente = obtenerIdCliente();
+    if (idCliente && idCliente !== "null" && idCliente !== "") {
+      navigate("/pago", { state: datosFinales });
+    } else {
+      navigate("/datos-cliente", { state: datosFinales });
+    }
   };
 
   return (
@@ -176,9 +140,7 @@ const DetallesCompra = () => {
         return (
           <div key={index} className="producto-detalle">
             <h3>{producto.nombre}</h3>
-            <p>
-              <strong>Cantidad:</strong> {producto.cantidad}
-            </p>
+            <p><strong>Cantidad:</strong> {producto.cantidad}</p>
 
             {producto.cantidad > 1 ? (
               <div className="grupos-container">
@@ -224,7 +186,6 @@ const DetallesCompra = () => {
                     </button>
                   </div>
                 ))}
-
                 <button
                   className="btn-add-group"
                   onClick={() => agregarGrupoHandler(producto.id)}

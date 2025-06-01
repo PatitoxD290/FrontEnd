@@ -2,6 +2,12 @@
 // LocalStorage helpers
 // =======================
 
+//obtener cliente
+export const obtenerIdCliente = () => {
+  const idCliente = localStorage.getItem("idCliente");
+  return idCliente && idCliente !== "" ? idCliente : null;
+};
+
 const agregarIdProductoAlStorage = (idProducto) => {
     const ids = JSON.parse(localStorage.getItem("idsProducto")) || [];
   
@@ -60,7 +66,7 @@ const agregarIdProductoAlStorage = (idProducto) => {
       const detalles = detallesPorProducto[producto.id];
   
       // Guardar el id_producto en localStorage
-      agregarIdProductoAlStorage(producto.id_producto); // Aquí se almacena automáticamente
+      agregarIdProductoAlStorage(producto.id); // Aquí se almacena automáticamente
   
       const grupos = detalles.grupos;
   
