@@ -12,6 +12,7 @@
     "chart.js": "^4.4.9",
     "frontend": "file:",
     "helmet": "^8.1.0",
+    "jspdf": "^3.0.1",
     "jwt-decode": "^4.0.0",
     "nodemailer": "^7.0.3",
     "react": "^19.1.0",

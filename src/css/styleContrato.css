@@ -1,0 +1,118 @@
+.sc-formulario {
+  max-width: 900px;
+  min-height: 90vh;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-top: 6rem;
+  padding-bottom: 100px; /* más que altura del footer */
+}
+
+.sc-titulo {
+  text-align: center;
+  color: #8B0000;
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.sc-subtitulo {
+  margin-top: 30px;
+  color: #444;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.sc-form-group {
+  margin-bottom: 20px;
+}
+
+.sc-form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.sc-input,
+.sc-select,
+.sc-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.2s ease;
+}
+
+.sc-input:focus,
+.sc-select:focus,
+.sc-textarea:focus {
+  border-color: #8B0000;
+  outline: none;
+}
+
+.sc-personalizacion-item {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.sc-btn-primary,
+.sc-btn-secondary {
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.sc-btn-primary {
+  background-color: #8B0000;
+  color: white;
+  margin-top: 20px;
+}
+
+.sc-btn-primary:hover {
+  background-color: #a40000;
+}
+
+.sc-btn-secondary {
+  background-color: #ddd;
+  color: #333;
+  margin-right: 10px;
+}
+
+.sc-btn-secondary:hover {
+  background-color: #bbb;
+}
+
+.sc-hr {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.sc-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px; /* igual que el padding */
+  background-color: #7f0019;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}

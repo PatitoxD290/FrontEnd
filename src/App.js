@@ -17,6 +17,8 @@ import DetallesCompra from './pages/DetallesCompra';
 import DatosCliente from './pages/DatosCliente';
 import RecuperarContraseña from './pages/RecupererContraseña'; 
 import Dashboard from "./pages/Dashboard";
+import CompraUsuario from "./pages/CompraUsuario";
+import SolicitarContrato from "./pages/Contrato"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,6 +57,8 @@ const AppContent = () => {
           <Route path="/detalles-compra" element={<DetallesCompra />} />
           <Route path="/datos-cliente" element={<DatosCliente />} />
           <Route path="/logs" element={user ? <LogsViewer /> : <Navigate to="/acceder" />} />
+          <Route path="/compra-usuario" element={user ? <CompraUsuario /> : <Navigate to="/acceder" />} />
+           <Route path="/solicitar-contrato" element={user ? <SolicitarContrato /> : <Navigate to="/acceder" />} />
           <Route path="/recuperar-contraseña" element={user ? <Navigate to="/" /> : <RecuperarContraseña />}
           />
           

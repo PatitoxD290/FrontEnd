@@ -31,7 +31,7 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
     const nuevosErrores = {};
     if (!nombres.trim()) nuevosErrores.nombres = "El nombre es obligatorio";
     if (!apellidos.trim()) nuevosErrores.apellidos = "El apellido es obligatorio";
-    if (!telefono.trim() || !/^\d{7,15}$/.test(telefono)) {
+    if (!telefono.trim() || !/^\d{9}$/.test(telefono)) {
       nuevosErrores.telefono = "Teléfono inválido (7 a 15 dígitos)";
     }
     if (!direccion.trim()) nuevosErrores.direccion = "La dirección es obligatoria";

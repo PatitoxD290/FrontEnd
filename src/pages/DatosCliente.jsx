@@ -36,12 +36,6 @@ const DatosCliente = () => {
   const productos = state?.productos || [];
   const detalles = state?.detalles || [];
 
-  const totalCalculado = productos.reduce((acc, p) => {
-    const precio = parseFloat(p.precio) || 0;
-    const cantidad = parseInt(p.cantidad) || 0;
-    return acc + precio * cantidad;
-  }, 0);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -94,7 +88,7 @@ const DatosCliente = () => {
 
   return (
     <div className="datos-cliente-container">
-      <h2>Información de envío</h2>
+      <h2>INFORMACIÓN DE ENVÍO</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Nombres:</label>
@@ -121,7 +115,7 @@ const DatosCliente = () => {
         <div className="form-group">
           <label>Teléfono:</label>
           <input
-            type="tel"
+            type="number"
             name="telefono"
             value={cliente.telefono}
             onChange={handleChange}
@@ -142,7 +136,7 @@ const DatosCliente = () => {
         <div className="form-group">
           <label>DNI:</label>
           <input
-            type="text"
+            type="number"
             name="dni"
             value={cliente.dni}
             onChange={handleChange}

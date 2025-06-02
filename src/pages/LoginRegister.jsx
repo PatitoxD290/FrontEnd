@@ -135,16 +135,20 @@ const handleRegister = async (e) => {
           <div className="form-information-childs">
             <h2>{isLoginActive ? "Iniciar Sesión" : "Crear una Cuenta"}</h2>
             {message.text && (
-              <div className={`alert ${message.type === "error" ? "alert-danger" : "alert-success"}`}>
+              <div
+                className={`alert ${
+                  message.type === "error" ? "alert-danger" : "alert-success"
+                }`}
+                role="alert"
+              >
                 {message.text}
               </div>
             )}
             <form className="form" onSubmit={isLoginActive ? handleLogin : handleRegister}>
-              {/* Formulario de registro */}
+              {/* Registro */}
               {!isLoginActive && (
                 <>
                   <label>
-                    <i className="bx bx-user"></i>
                     <input
                       type="text"
                       placeholder="Usuario"
@@ -155,7 +159,6 @@ const handleRegister = async (e) => {
                   </label>
 
                   <label>
-                    <i className="bx bx-envelope"></i>
                     <input
                       type="email"
                       placeholder="Correo Electrónico"
@@ -164,8 +167,8 @@ const handleRegister = async (e) => {
                       required
                     />
                   </label>
+
                   <label>
-                    <i className="bx bx-lock-alt"></i>
                     <input
                       type="password"
                       placeholder="Contraseña"
@@ -175,7 +178,16 @@ const handleRegister = async (e) => {
                     />
                   </label>
 
-                  {/* Mostrar la verificación del código solo si es necesario */}
+                  {/* Enviar código de verificación */}
+                  {!isVerifyingEmail && (
+                    <div className="btn-code-container">
+                      <button onClick={handleEnviarCodigo}>
+                        Enviar código de verificación
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Verificar código */}
                   {isVerifyingEmail && (
                     <>
                       <label>
@@ -188,28 +200,25 @@ const handleRegister = async (e) => {
                           required
                         />
                       </label>
-                      <button onClick={handleVerificarCodigo}>Verificar código</button>
+
+                      <div className="btn-verify-container">
+                      <button onClick={handleVerificarCodigo}>
+                        Verificar código
+                      </button>
+                      </div>
                     </>
                   )}
 
-                  {/* Botón para enviar código de verificación */}
-                  {!isVerifyingEmail && (
-                    <div>
-                      <button onClick={handleEnviarCodigo}>Enviar código de verificación</button>
-                    </div>
-                  )}
-
-                  <button type="submit" disabled={!isCodeValid}>
-                    {isLoginActive ? "Iniciar Sesión" : "Registrarse"}
+                  <button className="btn-login" disabled={!isCodeValid}>
+                    Registrarse
                   </button>
                 </>
               )}
 
-              {/* Formulario de login */}
+              {/* Login */}
               {isLoginActive && (
                 <>
                   <label>
-                    <i className="bx bx-envelope"></i>
                     <input
                       type="email"
                       placeholder="Correo Electrónico"
@@ -218,8 +227,8 @@ const handleRegister = async (e) => {
                       required
                     />
                   </label>
+
                   <label>
-                    <i className="bx bx-lock-alt"></i>
                     <input
                       type="password"
                       placeholder="Contraseña"
@@ -229,7 +238,7 @@ const handleRegister = async (e) => {
                     />
                   </label>
 
-                  <button type="submit">{isLoginActive ? "Iniciar Sesión" : "Registrarse"}</button>
+                  <button className="btn-login" >Iniciar Sesión</button>
                 </>
               )}
 

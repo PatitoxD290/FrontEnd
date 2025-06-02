@@ -19,27 +19,35 @@ const Navbar = () => {
     navigate("/");
   };
 
+  // Comparación exacta respetando mayúsculas y minúsculas
+  const esDennys = user?.user === "Godigo";
+
   return (
     <BsNavbar fixed="top">
       <Container>
         <BsNavbar.Brand as={Link} to="/home">
-          <img src="/Images/logo-kym.png" height="40" alt="" />
+          <img src="/Images/logo-kym.png" height="40" alt="Logo" />
         </BsNavbar.Brand>
 
         <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
         <BsNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {user ? (
-              <>
-                <Nav.Link as={Link} to="/usuarios">Usuarios</Nav.Link>
-                <Nav.Link as={Link} to="/clientes">Clientes</Nav.Link>
-                <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link> {/* 🚀 Nuevo link */}
-                <Nav.Link as={Link} to="/logs">Logs</Nav.Link>
-              </>
+              esDennys ? (
+                <>
+                  <Nav.Link as={Link} to="/usuarios">Usuarios</Nav.Link>
+                  <Nav.Link as={Link} to="/clientes">Clientes</Nav.Link>
+                  <Nav.Link as={Link} to="/compra-usuario">Compras Usuarios</Nav.Link>
+                  <Nav.Link as={Link} to="/dashboard">Ventas</Nav.Link>
+                  <Nav.Link as={Link} to="/logs">Logs</Nav.Link>
+                </>
+              ) : (
+                <>
+                  <Nav.Link as={Link} to="/compra-usuario">Compras Usuarios</Nav.Link>
+                </>
+              )
             ) : (
-              <>
-                <Nav.Link as={Link} to="/acceder">Acceder</Nav.Link>
-              </>
+              <Nav.Link as={Link} to="/acceder">Acceder</Nav.Link>
             )}
           </Nav>
 
@@ -52,9 +60,6 @@ const Navbar = () => {
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => alert("Creado por El Mejor Grupo de DSI V 😜")}>
                   Acerca de
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => alert("Funcionalidad aún no implementada")}>
-                  Cambiar contraseña
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>

@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import {
-  obtenerUsuarios,
-  actualizarUsuario,
-} from "../services/usuarioService";
+import { obtenerUsuarios, actualizarUsuario} from "../services/usuarioService";
 import UsuarioList from "../components/Usuarios/UsuarioList";
 import UsuarioForm from "../components/Usuarios/UsuarioForm";
 
@@ -53,8 +49,8 @@ const Usuarios = () => {
   };
 
   return (
-    <div className="container-admin">
-      <h2 className="admin-title">GESTIÓN DE USUARIOS</h2>
+    <div className="container-gestion">
+      <h2 className="gestion-title">GESTIÓN DE USUARIOS</h2>
 
       <UsuarioList
         usuarios={usuarios}

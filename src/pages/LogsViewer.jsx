@@ -4,7 +4,7 @@ import "../css/styleLogs.css";
 import { Table, Form, Row, Col } from "react-bootstrap";
 
 const LogsViewer = () => {
-  const [tabla, setTabla] = useState(""); 
+  const [tabla, setTabla] = useState("");
   const [tipo, setTipo] = useState("");
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
@@ -20,7 +20,21 @@ const LogsViewer = () => {
     "usuario_log",
     "ventas_log",
     "ventas_detalle_log",
+    "comprasusuario_log",
   ];
+
+  const nombreTablas = {
+    categoria_log: "CATEGORIA",
+    cliente_log: "CLIENTE",
+    contrato_log: "CONTRATO",
+    producto_log: "PRODUCTO",
+    stock_log: "STOCK",
+    stock_detalle_log: "STOCK DETALLE",
+    usuario_log: "USUARIO",
+    ventas_log: "VENTAS",
+    ventas_detalle_log: "VENTAS DETALLE",
+    comprasusuario_log: "COMPRAS USUARIO",
+  };
 
   useEffect(() => {
     if (tabla) {
@@ -53,12 +67,11 @@ const LogsViewer = () => {
   // Filtrar logs en frontend según filtroRegistro en el campo Registro
   const logsFiltrados = logs.filter((log) => {
     if (!filtroRegistro) return true; // si no hay filtro, mostrar todo
-    // Filtrado parcial por Registro
     return log.Registro?.toString().includes(filtroRegistro);
   });
 
   return (
-    <div className="container-admin">
+    <div className="container-logs">
       <h2 className="admin-title">VISOR DE LOGS</h2>
 
       <Row className="mb-3">
@@ -74,7 +87,7 @@ const LogsViewer = () => {
               </option>
               {tablasDisponibles.map((t) => (
                 <option key={t} value={t}>
-                  {t.replace("_log", "").toUpperCase()}
+                  {nombreTablas[t] || t.toUpperCase()}
                 </option>
               ))}
             </Form.Select>

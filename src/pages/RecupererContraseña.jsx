@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/styleLogin.css"; // Estilos de tu formulario
-import { agregarUsuario, enviarCodigoSeguridad, verificarCodigoSeguridad } from "../services/usuarioService"; // Asegúrate de que el service esté bien configurado
+import "../css/styleRecuperarContra.css"; // Estilos de tu formulario
+import { enviarCodigoSeguridad, recuperarContraseña, verificarCodigoSeguridad } from "../services/usuarioService"; // Asegúrate de que el service esté bien configurado
 
-const Register = () => {
+const RecuperarContraseña = () => {
   const navigate = useNavigate();
 
   // Estados del formulario
-  const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validationCode, setValidationCode] = useState(""); // Código de validación
@@ -15,18 +14,18 @@ const Register = () => {
   const [isCodeVerified, setIsCodeVerified] = useState(false); // Verificación del código
   const [isVerificationEnabled, setIsVerificationEnabled] = useState(false); // Habilitar "Verificar" solo si hay correo
 
-  // Función para manejar el cambio del correo electrónico
+  // Manejar cambio de correo electrónico
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setIsVerificationEnabled(e.target.value.trim() !== ""); // Habilita el botón si hay texto en el correo
+    setIsVerificationEnabled(e.target.value.trim() !== ""); // Habilita botón si hay texto
   };
 
-  // Función para manejar el código de validación
+  // Manejar cambio del código de validación
   const handleValidationCodeChange = (e) => {
     setValidationCode(e.target.value);
   };
 
-  // Función para manejar el envío del código de verificación
+  // Enviar código de seguridad al correo
   const handleSendVerificationCode = async (e) => {
     e.preventDefault();
 
@@ -38,13 +37,13 @@ const Register = () => {
     try {
       const res = await enviarCodigoSeguridad(email);
       setMessage({ text: res.message || "Código enviado correctamente", type: "success" });
-      setIsCodeVerified(false); // Asegurándonos de que el código no esté verificado inicialmente
+      setIsCodeVerified(false); // Resetear verificación
     } catch (err) {
       setMessage({ text: err.message || "Hubo un error al enviar el código", type: "error" });
     }
   };
 
-  // Función para manejar la verificación del código
+  // Verificar código de seguridad
   const handleVerifyCode = async (e) => {
     e.preventDefault();
 
@@ -54,19 +53,20 @@ const Register = () => {
     }
 
     try {
-      const res = await verificarCodigoSeguridad(validationCode); // Verificamos el código ingresado
+      const res = await verificarCodigoSeguridad(validationCode);
       setMessage({ text: res.message || "Código verificado correctamente", type: "success" });
-      setIsCodeVerified(true); // Habilitamos la opción para continuar con el registro
+      setIsCodeVerified(true);
     } catch (err) {
       setMessage({ text: err.message || "Código de validación incorrecto", type: "error" });
-      setIsCodeVerified(false); // Mantener la verificación en falso si el código es incorrecto
+      setIsCodeVerified(false);
     }
   };
 
-  const handleRegister = async (e) => {
+  // Cambiar contraseña (solo si código verificado)
+  const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    if (!user || !email || !password) {
+    if (!email || !password) {
       setMessage({ text: "Por favor llena todos los campos", type: "error" });
       return;
     }
@@ -77,115 +77,109 @@ const Register = () => {
     }
 
     try {
-      const newUser = { user, email, password };
-      const res = await agregarUsuario(newUser); // Llamamos al servicio de registro
-
-      setMessage({ text: "¡Registro exitoso!", type: "success" });
+      const res = await recuperarContraseña(email, password);
+      setMessage({ text: res.message || "¡Contraseña cambiada exitosamente!", type: "success" });
 
       // Redirigir al login después de 2 segundos
       setTimeout(() => navigate("/acceder"), 2000);
     } catch (err) {
-      setMessage({ text: err.message || "Error en el registro", type: "error" });
+      setMessage({ text: err.message || "Error al cambiar la contraseña", type: "error" });
     }
   };
 
   return (
-    <div className="body">
-      <div className="container-form">
-        <div className="form-information">
-          <div className="form-information-childs">
-            <h2>Crear una Cuenta</h2>
+  <div className="recuperar-body">
+    <div className="recuperar-container-form">
+      <div className="recuperar-form-information">
+        <div className="recuperar-form-content">
+          <h2 className="recuperar-title">Cambiar Contraseña</h2>
 
-            {/* Mensaje de éxito o error */}
-            {message.text && (
-              <div className={`alert ${message.type === "error" ? "alert-danger" : "alert-success"}`}>
-                {message.text}
-              </div>
-            )}
+          {/* Mensaje de éxito o error */}
+          {message.text && (
+            <div
+              className={`recuperar-alert ${
+                message.type === "error" ? "recuperar-alert-danger" : "recuperar-alert-success"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
 
-            {/* Formulario para ingresar el correo */}
-            <form className="form">
-              <label>
-                <i className="bx bx-user"></i>
+          <form className="recuperar-form">
+            <label className="recuperar-label">
+              <i className="bx bx-envelope"></i>
+              <input
+                type="email"
+                placeholder="Correo Electrónico"
+                value={email}
+                onChange={handleEmailChange}
+                required
+                className="recuperar-input"
+              />
+            </label>
+
+            <label className="recuperar-label">
+              <i className="bx bx-lock-alt"></i>
+              <input
+                type="password"
+                placeholder="Nueva Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="recuperar-input"
+              />
+            </label>
+
+            <div className="recuperar-btn-container">
+              <input
+                type="button"
+                value="Verificar Correo"
+                onClick={handleSendVerificationCode}
+                disabled={!isVerificationEnabled}
+                className="recuperar-btn"
+              />
+            </div>
+          </form>
+
+          {isCodeVerified === false && (
+            <div className="recuperar-validation">
+              <label className="recuperar-label">
                 <input
-                  type="text"
-                  placeholder="Usuario"
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
+                  type="number"
+                  placeholder="Código de Validación"
+                  value={validationCode}
+                  onChange={handleValidationCodeChange}
                   required
+                  className="recuperar-input"
                 />
               </label>
 
-              <label>
-                <i className="bx bx-envelope"></i>
-                <input
-                  type="email"
-                  placeholder="Correo Electrónico"
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
-                />
-              </label>
+              <input
+                type="button"
+                value="Verificar Código"
+                onClick={handleVerifyCode}
+                className="recuperar-btn"
+              />
+            </div>
+          )}
 
-              <label>
-                <i className="bx bx-lock-alt"></i>
-                <input
-                  type="password"
-                  placeholder="Contraseña"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </label>
-
-              {/* Botón de "Verificar", habilitado solo si hay correo ingresado */}
-              <div className="text-center">
-                <input
-                  type="button"
-                  value="Verificar Correo"
-                  onClick={handleSendVerificationCode}
-                  disabled={!isVerificationEnabled} // Solo habilitado si el correo está presente
-                />
-              </div>
-            </form>
-
-            {/* Código de validación */}
-            {isCodeVerified === false && (
-              <div className="validation-container">
-                <label>
-                  <input
-                    type="number" // Usamos 'number' para que sea más adecuado al código
-                    placeholder="Código de Validación"
-                    value={validationCode}
-                    onChange={handleValidationCodeChange}
-                    required
-                  />
-                </label>
-
-                <input
-                  type="submit"
-                  value="Verificar Código"
-                  onClick={handleVerifyCode} // Verifica el código ingresado
-                />
-              </div>
-            )}
-
-            {/* Solo habilitar el formulario de registro si el código es correcto */}
-            {isCodeVerified && (
-              <div className="register-container">
-                <input
-                  type="submit"
-                  value="Registrar"
-                  onClick={handleRegister} // Llama a la función para registrar al usuario
-                  disabled={!isCodeVerified} // Deshabilitar el botón hasta que el código esté verificado
-                />
-              </div>
-            )}
-          </div>
+          {isCodeVerified && (
+            <div className="recuperar-confirmar">
+              <input
+                type="button"
+                value="Cambiar Contraseña"
+                onClick={handleChangePassword}
+                disabled={!isCodeVerified}
+                className="recuperar-btn"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
-export default Register;
+export default RecuperarContraseña;

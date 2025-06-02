@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
+/* TITULO */
 .titulo-catalogo {
     color: #ffffff;
     font-size: 3.5rem;
@@ -10,7 +11,7 @@
     letter-spacing: 1px;
   }
   
-
+/* FONDO */
 .catalogo-background {
     padding: 20px 0;
     padding-top: 20px;

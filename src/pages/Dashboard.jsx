@@ -109,8 +109,8 @@ const Dashboard = () => {
   const cerrarModal = () => setDetalleModal(null);
 
   return (
-    <div className="body">
-      <h2>Dashboard de Ventas</h2>
+    <div className="body-dashboard">
+      <h2>DASHBOARD</h2>
 
       {error && <p className="error-msg">Error cargando datos: {error}</p>}
 

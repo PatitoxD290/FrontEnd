@@ -8,53 +8,36 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+
+/* FONDO PARA TODAS LAS PAGINAS */
 body {
   background: url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') center center/cover no-repeat fixed !important;
   font-family: 'Montserrat', sans-serif !important;
 }
 
-/* Fondo e imagen para modales y páginas de auth */
-.modal-content, .auth-required-page {
-  background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.9)),
-              url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') center center/cover no-repeat;
-}
 
-.container-admin {
+/* GESTIONES DE USUARIOS Y CLIENTES */
+.container-gestion {
   padding: 2rem !important;
   margin: 3rem auto !important;
   max-width: 1000px;
+  min-height: 80vh;
 }
 
-.admin-title {
-  color: #ffffff; /* Blanco puro */
+.gestion-title {
   font-size: 3rem;
-  font-weight: bold;
   text-align: center;
-  text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.9),
-    -1px -1px 3px rgba(0, 0, 0, 0.7); /* Sombra doble para mayor contraste */
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-weight: bold;
+  color: hsl(0, 0%, 100%);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  margin-top: 70px;
+  margin-bottom: 50px;
 }
 
 
-
-/* Modal personalizado */
-.modal-content {
-  border-radius: 12px !important;
-  box-shadow: 0 0 15px rgba(116, 0, 0, 0.3) !important;
-  font-family: 'Montserrat', sans-serif !important;
-  border: 2px solid #740000 !important;
-  text-align: center !important;
-  padding: 1rem 2rem !important;
-}
-
-
-/* Tabla centrada y estilizada */
+/* TABLAS GESTION USUARIOS Y CLIENTES */
 .table {
-  width: 100%;
+  width: 120%;
   margin: 2rem auto;
   background-color: rgba(255, 255, 255, 0.97);
   border-radius: 12px;
@@ -62,34 +45,12 @@ body {
   overflow: hidden;
 }
 
-.table th {
-  background-color: #740000;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 12px;
-}
-
-.table td {
-  background-color: #fefefe;
-  color: #333;
-  padding: 10px;
-  font-size: 0.95rem;
-  border-top: 1px solid #ddd;
-}
-
-/* Alternancia de filas */
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f9f1f1;
-}
-
-
+/* MODAL DE ACTUALIZACIÓN (USUARIOS Y CLIENTES) */
 /* Título modal */
 .modal-title {
   color: #740000 !important;
   font-weight: 700 !important;
   font-size: 1.5rem !important;
-  margin-bottom: 1rem !important;
 }
 
 /* Labels */
@@ -109,7 +70,6 @@ label {
   font-size: 1rem !important;
   transition: border-color 0.3s ease !important;
   font-family: 'Montserrat', sans-serif !important;
-  margin-bottom: 1rem !important;
 }
 
 .form-control:focus {
@@ -127,7 +87,8 @@ label {
   margin-bottom: 0.8rem !important;
 }
 
-/* Botones generales (editar, eliminar) */
+
+/* Botones generales (EDITAR, ACTUALIZAR) */
 .btn-edit {
   background-color: #ffc107 !important;
   border: none !important;
@@ -140,18 +101,6 @@ label {
   color: white !important;
 }
 
-
-.btn-delete {
-  background-color: #74000c !important;
-  border: none !important;
-  color: white !important;
-}
-
-.btn-delete:hover {
-  background-color: #874141 !important; /* más oscuro del rojo */
-}
-
-/* Botón principal para agregar con estilo personalizado */
 .btn-add-primary {
   background-color: #e93b50 !important;
   border: none !important;
@@ -177,7 +126,7 @@ label {
 }
 
 
-/* SweetAlert2 custom popup */
+/* SweetAlert2 custom popup (LIST STYLE) */
 .swal-custom-popup {
   border-radius: 15px !important;
   font-family: 'Montserrat', sans-serif !important;
@@ -207,7 +156,7 @@ label {
 }
 
 
-/* PAGINACION */
+/* PAGINACION LIST STYLE (USUARIOS, CLIENTES Y DASHBOARD) */
 .Pagination {
   display: flex;
   justify-content: center;
@@ -235,7 +184,7 @@ label {
 }
 
 
-/* AUTHREQUIRED */
+/* AUTHREQUIRED STYLE */
 .auth-required-page {
   min-height: 100vh;
   background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.9)),
@@ -294,4 +243,73 @@ label {
 
 .btn-register:hover {
   background-color: #8c1e1e;
+}
+
+/* RESPONSIVE GESTIÓN USUARIOS Y CLIENTES */
+@media (max-width: 1024px) {
+  .table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .container-gestion {
+    padding: 1rem !important;
+    margin: 2rem 1rem !important;
+  }
+
+  .gestion-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* RESPONSIVO PARA LA VISTA AuthRequired */
+@media (max-width: 768px) {
+  .auth-required-page {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .auth-required-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-required-page p {
+    font-size: 1rem;
+  }
+
+  .auth-required-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .btn-login, .btn-register {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+}
+
+/* OPTIMIZACIÓN EXTRA PARA MÓVILES */
+@media (max-width: 480px) {
+  .gestion-title {
+    font-size: 1.8rem;
+  }
+
+  .table th, .table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  label {
+    font-size: 0.9rem !important;
+  }
+
+  .form-control {
+    font-size: 0.95rem !important;
+  }
+
+  .swal-title {
+    font-size: 1.5rem !important;
+  }
 }

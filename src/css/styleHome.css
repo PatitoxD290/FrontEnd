@@ -75,6 +75,20 @@
   background-color: #b31c2d;
 }
 
+
+/* CONTRATO */
+.solicitar-contrato {
+  padding: 50px 0;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.solicitar-contrato h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+
 /* Sección Información / Contacto */
 .informacion {
   background-color: #f9f1f1;

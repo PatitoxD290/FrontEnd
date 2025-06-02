@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Pagination } from "react-bootstrap";
-import '../../css/Global.css';
+
 
 const UsuarioList = ({ usuarios, seleccionar }) => {
   const [paginaActual, setPaginaActual] = useState(1);

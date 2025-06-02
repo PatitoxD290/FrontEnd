@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Table, Button, Pagination } from "react-bootstrap";
 
-
-const ClienteList = ({ clientes, seleccionar }) => {
+const ComprasUsuarioList = ({ compras, seleccionar }) => {
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 5;
 
-  const totalPaginas = Math.ceil(clientes.length / elementosPorPagina);
+  const totalPaginas = Math.ceil(compras.length / elementosPorPagina);
   const indiceInicio = (paginaActual - 1) * elementosPorPagina;
   const indiceFinal = indiceInicio + elementosPorPagina;
-  const clientesPaginados = clientes.slice(indiceInicio, indiceFinal);
+  const comprasPaginadas = compras.slice(indiceInicio, indiceFinal);
 
   const irPrimeraPagina = () => setPaginaActual(1);
   const irUltimaPagina = () => setPaginaActual(totalPaginas);
@@ -47,27 +46,21 @@ const ClienteList = ({ clientes, seleccionar }) => {
       <Table>
         <thead>
           <tr>
-            <th>ID Cliente</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>DNI</th> {/* Columna DNI */}
+            <th>ID Compra Usuario</th>
+            <th>ID Usuario</th>
+            <th>ID Venta</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {clientesPaginados.map(c => (
-            <tr key={c.id_cliente}>
-              <td>{c.id_cliente}</td>
-              <td>{c.nombres}</td>
-              <td>{c.apellidos}</td>
-              <td>{c.telefono}</td>
-              <td>{c.direccion}</td>
-              <td>{c.dni}</td>
+          {comprasPaginadas.map(compra => (
+            <tr key={compra.id_comprasusuario}>
+              <td>{compra.id_comprasusuario}</td>
+              <td>{compra.id_usuario}</td>
+              <td>{compra.id_ventas}</td>
               <td>
-                <Button className="btn-edit" onClick={() => seleccionar(c)}>
-                  Editar
+                <Button className="btn-edit" onClick={() => seleccionar(compra)}>
+                  Ver Detalles
                 </Button>
               </td>
             </tr>
@@ -86,4 +79,4 @@ const ClienteList = ({ clientes, seleccionar }) => {
   );
 };
 
-export default ClienteList;
+export default ComprasUsuarioList;

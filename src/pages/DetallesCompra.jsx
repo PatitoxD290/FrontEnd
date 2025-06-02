@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css/styleComprasD.css";
 import {
@@ -8,7 +8,8 @@ import {
   manejarCambioGrupo,
   manejarCambioCampoSimple,
   validarDetallesDeProductos,
-  obtenerIdCliente
+  obtenerIdCliente,
+  concatenarTallas,
 } from "../services/DCompraService";
 
 const DetallesCompra = () => {
@@ -27,9 +28,7 @@ const DetallesCompra = () => {
       productos.forEach((producto) => {
         detallesIniciales[producto.id] = {
           grupos: producto.cantidad > 1 ? [] : null,
-          color: "#ffffff",
-          material: "",
-          talla: "", // para cantidad 1 sin grupos
+          talla: "",
         };
       });
       setDetallesPorProducto(detallesIniciales);
@@ -39,8 +38,8 @@ const DetallesCompra = () => {
   const agregarGrupoHandler = (productoId) => {
     const detallesActuales = detallesPorProducto[productoId];
     const producto = productosSeleccionados.find((p) => p.id === productoId);
-
     const resultado = agregarGrupo(detallesActuales, producto.cantidad);
+
     if (resultado.error) {
       alert("Ya se ha asignado la cantidad total para este producto.");
       return;
@@ -64,7 +63,12 @@ const DetallesCompra = () => {
 
   const manejarCambioGrupoHandler = (productoId, grupoIndex, campo, valor) => {
     const detallesActuales = detallesPorProducto[productoId];
-    const resultado = manejarCambioGrupo(detallesActuales, grupoIndex, campo, valor);
+    const resultado = manejarCambioGrupo(
+      detallesActuales,
+      grupoIndex,
+      campo,
+      valor
+    );
 
     setDetallesPorProducto((prev) => ({
       ...prev,
@@ -82,37 +86,36 @@ const DetallesCompra = () => {
     }));
   };
 
-  const manejarColorHandler = (productoId, color) => {
-    setDetallesPorProducto((prev) => ({
-      ...prev,
-      [productoId]: {
-        ...prev[productoId],
-        color,
-      },
-    }));
-  };
+  const construirDatosFinales = () => {
+    const productosConTallasConcatenadas = productosSeleccionados.map(
+      (producto) => {
+        const detalles = detallesPorProducto[producto.id];
+        const tallas = concatenarTallas(producto, detalles);
+        return {
+          ...producto,
+          tallas,
+        };
+      }
+    );
 
-  const manejarMaterialHandler = (productoId, material) => {
-    setDetallesPorProducto((prev) => ({
-      ...prev,
-      [productoId]: {
-        ...prev[productoId],
-        material,
-      },
-    }));
+    return {
+      productos: productosConTallasConcatenadas,
+      detalles: detallesPorProducto,
+    };
   };
 
   const continuar = () => {
-    const error = validarDetallesDeProductos(productosSeleccionados, detallesPorProducto);
+    const error = validarDetallesDeProductos(
+      productosSeleccionados,
+      detallesPorProducto
+    );
     if (error) {
       alert(error);
       return;
     }
 
-    const datosFinales = {
-      productos: productosSeleccionados,
-      detalles: detallesPorProducto,
-    };
+    const datosFinales = construirDatosFinales();
+    console.log("🔍 Datos que se enviarán:", datosFinales); // ← Aquí se imprime en consola
 
     const idCliente = obtenerIdCliente();
     if (idCliente && idCliente !== "null" && idCliente !== "") {
@@ -122,6 +125,11 @@ const DetallesCompra = () => {
     }
   };
 
+  const mostrarDatosEnConsola = () => {
+    const datosFinales = construirDatosFinales();
+    console.log("📦 Datos simulados antes de continuar:", datosFinales);
+  };
+
   return (
     <div className="detalles-background">
       <h2 className="titulo-compra">Detalles de la Compra</h2>
@@ -129,36 +137,108 @@ const DetallesCompra = () => {
       {productosSeleccionados.map((producto, index) => {
         const detalles = detallesPorProducto[producto.id] || {
           grupos: producto.cantidad > 1 ? [] : null,
-          color: "#ffffff",
-          material: "",
           talla: "",
         };
         const grupos = detalles.grupos;
 
-        const esPoloPersonalizado = producto.nombre.toLowerCase().includes("polo personalizado");
-
         return (
           <div key={index} className="producto-detalle">
             <h3>{producto.nombre}</h3>
-            <p><strong>Cantidad:</strong> {producto.cantidad}</p>
+            <p>
+              <strong>Cantidad:</strong> {producto.cantidad}
+            </p>
 
             {producto.cantidad > 1 ? (
               <div className="grupos-container">
                 <h4>Grupos</h4>
                 {grupos.map((grupo, idx) => (
                   <div key={idx} className="grupo-item">
-                    <label>
-                      Talla:
-                      <input
-                        type="text"
-                        value={grupo.talla}
-                        onChange={(e) =>
-                          manejarCambioGrupoHandler(producto.id, idx, "talla", e.target.value)
+                    <div className="form-group">
+                      <label>Tallas Chicas:</label>
+                      <select
+                        value={
+                          ["12", "14", "16"].includes(grupo.talla)
+                            ? grupo.talla
+                            : ""
                         }
-                      />
-                    </label>
-                    <label>
-                      Cantidad:
+                        onChange={(e) =>
+                          manejarCambioGrupoHandler(
+                            producto.id,
+                            idx,
+                            "talla",
+                            e.target.value
+                          )
+                        }
+                        className="input-formal"
+                      >
+                        <option value="" disabled hidden>
+                          Seleccionar
+                        </option>
+
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Tallas Medianas:</label>
+                      <select
+                        value={
+                          ["S", "M", "L"].includes(grupo.talla)
+                            ? grupo.talla
+                            : ""
+                        }
+                        onChange={(e) =>
+                          manejarCambioGrupoHandler(
+                            producto.id,
+                            idx,
+                            "talla",
+                            e.target.value
+                          )
+                        }
+                        className="input-formal"
+                      >
+                        <option value="" disabled hidden>
+                          Seleccionar
+                        </option>
+
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Tallas Grandes:</label>
+                      <select
+                        value={
+                          ["XL", "XXL", "XXXL"].includes(grupo.talla)
+                            ? grupo.talla
+                            : ""
+                        }
+                        onChange={(e) =>
+                          manejarCambioGrupoHandler(
+                            producto.id,
+                            idx,
+                            "talla",
+                            e.target.value
+                          )
+                        }
+                        className="input-formal"
+                      >
+                        <option value="" disabled hidden>
+                          Seleccionar
+                        </option>
+
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Cantidad:</label>
                       <input
                         type="number"
                         min="1"
@@ -176,64 +256,124 @@ const DetallesCompra = () => {
                             parseInt(e.target.value) || 1
                           )
                         }
+                        className="input-formal"
                       />
-                    </label>
+                    </div>
                     <button
-                      className="btn-delet-group"
+                      className="btn-delete btn-small"
                       onClick={() => eliminarGrupoHandler(producto.id, idx)}
                     >
-                      X
+                      Eliminar
                     </button>
                   </div>
                 ))}
                 <button
-                  className="btn-add-group"
+                  className="btn-primary btn-small"
                   onClick={() => agregarGrupoHandler(producto.id)}
                 >
-                  Agregar Grupo
+                  + Agregar Grupo
                 </button>
               </div>
             ) : (
-              <label>
-                Talla:
-                <input
-                  type="text"
-                  value={detalles.talla}
-                  onChange={(e) =>
-                    manejarCambioCampoSimpleHandler(producto.id, "talla", e.target.value)
-                  }
-                />
-              </label>
-            )}
+              // SOLO 1 CANTIDAD: también separado en 3 selects
+              <div>
+                {/* NIÑOS */}
+                <div className="form-group">
+                  <label>Tallas Pequeñas:</label>
+                  <select
+                    value={
+                      ["12", "14", "16"].includes(detalles.talla)
+                        ? detalles.talla
+                        : ""
+                    }
+                    onChange={(e) =>
+                      manejarCambioCampoSimpleHandler(
+                        producto.id,
+                        "talla",
+                        e.target.value
+                      )
+                    }
+                    className="input-formal"
+                  >
+                    <option value="" disabled hidden>
+                      Seleccionar
+                    </option>
 
-            {esPoloPersonalizado && (
-              <>
-                <label>
-                  Color:
-                  <input
-                    type="color"
-                    value={detalles.color}
-                    onChange={(e) => manejarColorHandler(producto.id, e.target.value)}
-                  />
-                </label>
-                <label>
-                  Material:
-                  <input
-                    type="text"
-                    value={detalles.material}
-                    onChange={(e) => manejarMaterialHandler(producto.id, e.target.value)}
-                    placeholder="Material (ej. algodón)"
-                  />
-                </label>
-              </>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                  </select>
+                </div>
+
+                {/* JÓVENES */}
+                <div className="form-group">
+                  <label>Tallas Medianas:</label>
+                  <select
+                    value={
+                      ["S", "M", "L"].includes(detalles.talla)
+                        ? detalles.talla
+                        : ""
+                    }
+                    onChange={(e) =>
+                      manejarCambioCampoSimpleHandler(
+                        producto.id,
+                        "talla",
+                        e.target.value
+                      )
+                    }
+                    className="input-formal"
+                  >
+                    <option value="" disabled hidden>
+                      Seleccionar
+                    </option>
+
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                  </select>
+                </div>
+
+                {/* ADULTOS */}
+                <div className="form-group">
+                  <label>Tallas Grandes:</label>
+                  <select
+                    value={
+                      ["XL", "XXL", "XXXL"].includes(detalles.talla)
+                        ? detalles.talla
+                        : ""
+                    }
+                    onChange={(e) =>
+                      manejarCambioCampoSimpleHandler(
+                        producto.id,
+                        "talla",
+                        e.target.value
+                      )
+                    }
+                    className="input-formal"
+                  >
+                    <option value="" disabled hidden>
+                      {" "}
+                      Seleccionar{" "}
+                    </option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                    <option value="XXXL">XXXL</option>
+                  </select>
+                </div>
+              </div>
             )}
           </div>
         );
       })}
 
-      <button className="btn-add-group" onClick={continuar}>
-        Continuar con el Pago
-      </button>
+      <div className="botones-detalles">
+        <button className="btn-secondary" onClick={mostrarDatosEnConsola}>
+          Ver datos que se enviarán
+        </button>
+        <button className="btn-primary" onClick={continuar}>
+          Continuar con el Pago
+        </button>
+      </div>
     </div>
   );
 };

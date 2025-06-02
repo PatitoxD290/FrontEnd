@@ -40,8 +40,8 @@ const Clientes = () => {
   };
 
   return (
-    <div className="container-admin">
-      <h2 className="admin-title">GESTIÓN DE CLIENTES</h2>
+    <div className="container-gestion">
+      <h2 className="gestion-title">GESTIÓN DE CLIENTES</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 

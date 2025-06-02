@@ -7,7 +7,8 @@ import {
   VerificacionPago,
   EnviarVerificacionPago,
   obtenerCorreo,
-  CrearVenta
+  CrearVenta,
+  obtenerIdUsuario,
 } from "../services/negocio";
 
 const Pago = () => {
@@ -108,37 +109,51 @@ const Pago = () => {
 
   const procesarPago = async () => {
     if (!user?.id_usuario) return alert("Usuario no autenticado");
-    if (!clienteLocal?.direccion?.trim()) return alert("Falta la dirección del cliente");
+    if (!clienteLocal?.direccion?.trim())
+      return alert("Falta la dirección del cliente");
     if (!productos.length) return alert("No hay productos para procesar");
-    if (!qrEscaneado) return alert("Debes escanear el código QR antes de pagar");
-    if (!clienteLocal?.nombres?.trim()) return alert("Faltan los nombres del cliente");
-    if (!clienteLocal?.apellidos?.trim()) return alert("Faltan los apellidos del cliente");
+    if (!qrEscaneado)
+      return alert("Debes escanear el código QR antes de pagar");
+    if (!clienteLocal?.nombres?.trim())
+      return alert("Faltan los nombres del cliente");
+    if (!clienteLocal?.apellidos?.trim())
+      return alert("Faltan los apellidos del cliente");
     if (!clienteLocal?.dni?.trim()) return alert("Falta el DNI del cliente");
-    if (!clienteLocal?.telefono?.trim()) return alert("Falta el número de teléfono del cliente");
+    if (!clienteLocal?.telefono?.trim())
+      return alert("Falta el número de teléfono del cliente");
     if (!metodoPago) return alert("Debes seleccionar un método de pago");
-    if (!codigoVerificado) return alert("Debes verificar el código de pago antes de continuar");
+    if (!codigoVerificado)
+      return alert("Debes verificar el código de pago antes de continuar");
 
     setProcesando(true);
     try {
       const idCliente = localStorage.getItem("idCliente");
       const venta = {
+        id_usuario: obtenerIdUsuario(),
         id_cliente: idCliente !== "null" ? idCliente : null,
         lugar_entrega: clienteLocal.direccion,
         total: parseFloat(totalCalculado.toFixed(2)),
         forma_pago: metodoPago,
         fecha: new Date().toISOString().slice(0, 10),
         hora: new Date().toISOString().slice(11, 19),
-        detalles: productos.map(p => ({
-          id_producto: p.id || p.id_producto,
-          cantidad: p.cantidad
-        }))
+        detalles: productos.map((p, index) => {
+          const idProducto = p.id || p.id_producto || idsProducto[index];
+          const detalleProducto = detalles[idProducto] || {};
+          const tallasConcatenadas = detalleProducto?.talla || "";
+
+          return {
+            id_producto: idProducto,
+            tallas: tallasConcatenadas,
+            cantidad: p.cantidad,
+          };
+        }),
       };
 
       console.log("📤 Enviando venta al backend:", venta);
       await CrearVenta(venta);
 
       alert("Venta realizada con éxito");
-      navigate("/gracias");
+      navigate("/home");
     } catch (error) {
       console.error("Error procesando la venta:", error);
       alert("Error al procesar la venta");
@@ -157,14 +172,40 @@ const Pago = () => {
       <div className="checkout-container">
         <div className="checkout-left">
           <div className="checkout-section">
-            <h3>Datos del Cliente</h3>
-            <p>
-              <strong>Nombres: {clienteLocal?.nombres || "No definido"}</strong><br />
-              <strong>Apellidos: {clienteLocal?.apellidos || "No definido"}</strong><br />
-              <strong>DNI: {clienteLocal?.dni || "No definido"}</strong><br />
-              <strong>Teléfono: {clienteLocal?.telefono || "No definido"}</strong><br />
-              <strong>Dirección: {clienteLocal?.direccion || "No definido"}</strong>
-            </p>
+            <h3>Datos del cliente</h3>
+            <div className="cliente-datos">
+              <div className="dato-cliente">
+                <label>Nombre completo:</label>
+                <span>
+                  <strong>{clienteLocal?.nombres || "No definido"}</strong>{" "}
+                  <strong>{clienteLocal?.apellidos || "No definido"}</strong>
+                  <br />
+                </span>
+              </div>
+
+              <div className="dato-cliente">
+                <label>DNI:</label>
+                <span>
+                  <strong>{clienteLocal?.dni || "No definido"}</strong>
+                  <br />
+                </span>
+              </div>
+
+              <div className="dato-cliente">
+                <label>Teléfono:</label>
+                <span>
+                  <strong>{clienteLocal?.telefono || "No definido"}</strong>
+                  <br />
+                </span>
+              </div>
+
+              <div className="dato-cliente">
+                <label>Dirección:</label>
+                <span>
+                  <strong>{clienteLocal?.direccion || "No definido"}</strong>
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="checkout-section">
@@ -179,8 +220,11 @@ const Pago = () => {
                     checked={metodoPago === m}
                     onChange={() => setMetodoPago(m)}
                   />
-                  {m === "yape" ? "Plim/Yape" :
-                   m === "tarjeta" ? "Tarjeta de Crédito/Débito" : "Transferencia Bancaria"}
+                  {m === "yape"
+                    ? "Plin/Yape"
+                    : m === "tarjeta"
+                    ? "Tarjeta de Crédito/Débito"
+                    : "Transferencia Bancaria"}
                 </label>
               </div>
             ))}
@@ -196,7 +240,12 @@ const Pago = () => {
                     src={`/Images/ID_Producto=${idParaImagen}.jpeg`}
                     onError={(e) => (e.target.src = "/Images/logo-kym.png")}
                     alt={p.nombre}
-                    style={{ maxWidth: "120px", maxHeight: "120px", objectFit: "contain", borderRadius: "8px" }}
+                    style={{
+                      maxWidth: "120px",
+                      maxHeight: "120px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
                     className="img-fluid"
                   />
                   <div>
@@ -249,7 +298,9 @@ const Pago = () => {
                 >
                   Verificar Código
                 </button>
-                {codigoVerificado && <p style={{ color: "green" }}>Código verificado ✔️</p>}
+                {codigoVerificado && (
+                  <p style={{ color: "green" }}>Código verificado ✔️</p>
+                )}
               </div>
             )}
 

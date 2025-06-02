@@ -1,23 +1,28 @@
-/* Estilos generales */
+/* FCONTAINER DATOS CLIENTE */
 .datos-cliente-container {
   max-width: 700px;
   margin: 2rem auto;
   padding: 2.5rem;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffe4e4;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  animation: fadeIn 0.5s ease-out;
+  margin-top: 7rem;
 }
 
+
+/* TITULO */
 .datos-cliente-container h2 {
-  color: #2c3e50;
+  color: #8B0000;
+  text-shadow: 2px 2px 5px rgba(96, 75, 75, 0.9);
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
 }
 
-/* Estilos del formulario */
+/* FORMULARIO DATOS CLIENTE */
 form {
   display: grid;
   grid-template-columns: 1fr;
@@ -30,29 +35,30 @@ form {
 }
 
 .form-group label {
-  margin-bottom: 0.6rem;
-  color: #34495e;
-  font-weight: 500;
-  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
-  padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
+  background-color: #fdfdfd;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.15);
   background-color: #fff;
 }
 
@@ -61,7 +67,8 @@ form {
   resize: vertical;
 }
 
-/* Estilos para el checkbox */
+
+/* CHECKBOX */
 .form-group-check {
   display: flex;
   align-items: center;
@@ -72,48 +79,58 @@ form {
   margin-right: 0.8rem;
   width: 18px;
   height: 18px;
-  accent-color: #3498db;
+  accent-color: #8B0000;
 }
 
 .form-group-check label {
-  color: #34495e;
+  color: #444;
   font-size: 0.95rem;
   cursor: pointer;
 }
 
-/* Estilos del botón */
+
+/* BOTON PAGAR */
 .btn-pagar {
-  background: linear-gradient(135deg, #3498db, #2c3e50);
-  color: white;
+  background: linear-gradient(135deg, #8B0000, #5C0000);
+  color: #fff;
   padding: 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.7px;
 }
 
 .btn-pagar:hover {
-  background: linear-gradient(135deg, #2980b9, #1a252f);
+  background: linear-gradient(135deg, #a30000, #400000);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+  box-shadow: 0 6px 16px rgba(139, 0, 0, 0.3);
 }
 
 .btn-pagar:active {
   transform: translateY(0);
 }
 
-/* Estilos responsivos */
+
+/* Responsive */
 @media (max-width: 768px) {
   .datos-cliente-container {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-  
+    margin-top: 120px;
+  max-width: 700px;
+  margin: 120px auto 2rem auto; /* margen superior suficiente para no chocar con el navbar */
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.5s ease-out;
+}
+
+
   form {
     gap: 1rem;
   }
@@ -123,7 +140,7 @@ form {
   form {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .form-group:nth-last-child(2),
   .form-group:last-child,
   .form-group-check {
@@ -131,45 +148,10 @@ form {
   }
 }
 
-/* Animaciones */
+/* Animación */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.datos-cliente-container {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Estilos para los métodos de pago */
-.metodo-pago-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.metodo-pago-option {
-  display: flex;
-  align-items: center;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.metodo-pago-option:hover {
-  border-color: #3498db;
-  background-color: #f5f9fc;
-}
-
-.metodo-pago-option input {
-  margin-right: 1rem;
-}
-
-.metodo-pago-icon {
-  width: 30px;
-  margin-right: 1rem;
 }
 
 /* Validación visual */
@@ -178,5 +160,5 @@ input:invalid, textarea:invalid {
 }
 
 input:valid, textarea:valid {
-  border-color: #2ecc71;
+  border-color: #ffa69c;
 }
