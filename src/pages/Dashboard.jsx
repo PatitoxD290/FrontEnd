@@ -11,7 +11,13 @@ import {
   Legend,
 } from "chart.js";
 
-import "../css/Dashboard.css"; // Importa el CSS aquí
+import "../css/Dashboard.css";
+import {
+  obtenerlasventaspormes,
+  otenerprodutosmasvendidos,
+  obtenerVentas,
+  obtenerDetallesVenta,
+} from "../services/graficosService";
 
 ChartJS.register(
   CategoryScale,
@@ -23,38 +29,26 @@ ChartJS.register(
   Legend
 );
 
-const API_URL = "http://localhost:3001/api/v1";
-
-const obtenerToken = () => localStorage.getItem("token");
-
-const hacerPeticion = async (url, metodo = "GET", datos = null) => {
-  const token = obtenerToken();
-  const config = {
-    method: metodo,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  if (datos) config.body = JSON.stringify(datos);
-
-  const res = await fetch(url, config);
-  if (!res.ok) throw new Error("Error en la petición");
-  return res.json();
-};
-
 const Dashboard = () => {
   const [ventasPorMes, setVentasPorMes] = useState([]);
   const [productosMasVendidos, setProductosMasVendidos] = useState([]);
+  const [ventasList, setVentasList] = useState([]);
   const [error, setError] = useState(null);
 
+  const [detalleModal, setDetalleModal] = useState(null);
+  const [loadingDetalle, setLoadingDetalle] = useState(false);
+
   useEffect(() => {
-    hacerPeticion(`${API_URL}/ventas-mes`)
+    obtenerlasventaspormes()
       .then(setVentasPorMes)
       .catch((e) => setError(e.message));
 
-    hacerPeticion(`${API_URL}/ventas-productos-mas-vendidos`)
+    otenerprodutosmasvendidos()
       .then(setProductosMasVendidos)
+      .catch((e) => setError(e.message));
+
+    obtenerVentas()
+      .then(setVentasList)
       .catch((e) => setError(e.message));
   }, []);
 
@@ -98,21 +92,95 @@ const Dashboard = () => {
     ],
   };
 
+  const mostrarDetalles = async (id_ventas) => {
+    setLoadingDetalle(true);
+    setDetalleModal(null);
+
+    try {
+      const res = await obtenerDetallesVenta(id_ventas);
+      setDetalleModal(res.detalle);
+    } catch (e) {
+      setError("Error al cargar detalles: " + e.message);
+    } finally {
+      setLoadingDetalle(false);
+    }
+  };
+
+  const cerrarModal = () => setDetalleModal(null);
+
   return (
     <div className="body">
       <h2>Dashboard de Ventas</h2>
 
-      {error && <p>Error cargando datos: {error}</p>}
+      {error && <p className="error-msg">Error cargando datos: {error}</p>}
 
-      <section>
-        <h3>Ventas por mes</h3>
-        <Bar data={dataVentasMes} options={opcionesVentasMes} />
+      <section className="admin-table-container">
+        <h3>Lista de Ventas</h3>
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>ID Venta</th>
+              <th>ID Cliente</th>
+              <th>Lugar Entrega</th>
+              <th>Total</th>
+              <th>Forma de Pago</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ventasList.map((venta) => (
+              <tr key={venta.id_ventas}>
+                <td>{venta.id_ventas}</td>
+                <td>{venta.id_cliente}</td>
+                <td>{venta.lugar_entrega}</td>
+                <td>{venta.total}</td>
+                <td>{venta.forma_pago}</td>
+                <td>{venta.fecha}</td>
+                <td>{venta.hora}</td>
+                <td>
+                  <button
+                    className="btn-details"
+                    onClick={() => mostrarDetalles(venta.id_ventas)}
+                  >
+                    Mostrar Detalles
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
-      <section>
-        <h3>Productos más vendidos</h3>
-        <Pie data={dataProductos} />
-      </section>
+      {/* Modal */}
+      {detalleModal !== null && (
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalles de la Venta</h3>
+            {loadingDetalle ? (
+              <p>Cargando...</p>
+            ) : (
+              <pre style={{ whiteSpace: "pre-wrap" }}>{detalleModal}</pre>
+            )}
+            <button onClick={cerrarModal} className="btn-details">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="graficos-container">
+        <section>
+          <h3>Ventas por mes</h3>
+          <Bar data={dataVentasMes} options={opcionesVentasMes} />
+        </section>
+
+        <section>
+          <h3>Productos más vendidos</h3>
+          <Pie data={dataProductos} />
+        </section>
+      </div>
     </div>
   );
 };

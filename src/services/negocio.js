@@ -73,23 +73,22 @@ export const VerificacionPago = async (code) => {
   return await hacerPeticion(`${API_URL}/verificar-pago`, 'POST', { code });
 };
 
-// Crear venta
-export const CrearVenta = async (data) => {
-  try {
-    const url = `${API_URL}/ventas`; 
-    return await hacerPeticion(url, 'POST', data); 
-  } catch (error) {
-    console.error("Error en la creación de la venta:", error.message);
-    throw error;
+export const CrearVenta = async (ventaData) => {
+  const token = obtenerToken();
+  const res = await fetch(`${API_URL}/ventas`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+    body: JSON.stringify(ventaData),
+  });
+
+  if (!res.ok) {
+    const error = await res.text();
+    throw new Error(error || "Error en la creación de la venta");
   }
+
+  return res.json();
 };
 
-// Obtener todas las ventas
-export const obtenerVentas = async () => {
-  return await hacerPeticion(`${API_URL}/ventas`);
-};
-
-// Obtener detalles de una venta específica
-export const obtenerDetallesVenta = async (id_venta) => {
-  return await hacerPeticion(`${API_URL}/ventas-detalle/${id_venta}`);
-};

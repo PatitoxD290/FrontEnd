@@ -107,84 +107,35 @@ const Pago = () => {
   };
 
   const procesarPago = async () => {
-    if (!user?.id_usuario) {
-      alert("Usuario no autenticado");
-      return;
-    }
-    if (!clienteLocal?.direccion?.trim()) {
-      alert("Falta la dirección del cliente");
-      return;
-    }
-    if (!productos.length) {
-      alert("No hay productos para procesar");
-      return;
-    }
-    if (!qrEscaneado) {
-      alert("Debes escanear el código QR antes de pagar");
-      return;
-    }
-    if (!clienteLocal?.nombres?.trim()) {
-      alert("Faltan los nombres del cliente");
-      return;
-    }
-    if (!clienteLocal?.apellidos?.trim()) {
-      alert("Faltan los apellidos del cliente");
-      return;
-    }
-    if (!clienteLocal?.dni?.trim()) {
-      alert("Falta el DNI del cliente");
-      return;
-    }
-    if (!clienteLocal?.telefono?.trim()) {
-      alert("Falta el número de teléfono del cliente");
-      return;
-    }
-    if (!metodoPago) {
-      alert("Debes seleccionar un método de pago");
-      return;
-    }
-    if (!codigoVerificado) {
-      alert("Debes verificar el código de pago antes de continuar");
-      return;
-    }
+    if (!user?.id_usuario) return alert("Usuario no autenticado");
+    if (!clienteLocal?.direccion?.trim()) return alert("Falta la dirección del cliente");
+    if (!productos.length) return alert("No hay productos para procesar");
+    if (!qrEscaneado) return alert("Debes escanear el código QR antes de pagar");
+    if (!clienteLocal?.nombres?.trim()) return alert("Faltan los nombres del cliente");
+    if (!clienteLocal?.apellidos?.trim()) return alert("Faltan los apellidos del cliente");
+    if (!clienteLocal?.dni?.trim()) return alert("Falta el DNI del cliente");
+    if (!clienteLocal?.telefono?.trim()) return alert("Falta el número de teléfono del cliente");
+    if (!metodoPago) return alert("Debes seleccionar un método de pago");
+    if (!codigoVerificado) return alert("Debes verificar el código de pago antes de continuar");
 
     setProcesando(true);
     try {
-      const formData = new FormData();
+      const idCliente = localStorage.getItem("idCliente");
+      const venta = {
+        id_cliente: idCliente !== "null" ? idCliente : null,
+        lugar_entrega: clienteLocal.direccion,
+        total: parseFloat(totalCalculado.toFixed(2)),
+        forma_pago: metodoPago,
+        fecha: new Date().toISOString().slice(0, 10),
+        hora: new Date().toISOString().slice(11, 19),
+        detalles: productos.map(p => ({
+          id_producto: p.id || p.id_producto,
+          cantidad: p.cantidad
+        }))
+      };
 
-      const idCliente = localStorage.getItem("idCliente") || "null";
-
-      formData.append("id_cliente", idCliente);
-      formData.append("lugar_entrega", clienteLocal.direccion);
-      formData.append("total", totalCalculado.toFixed(2));
-      formData.append("forma_pago", metodoPago);
-      formData.append("fecha", new Date().toISOString().slice(0, 10));
-      formData.append("hora", new Date().toISOString().slice(11, 19));
-
-      const detallesParaBackend = productos.map((p) => ({
-        id_producto: p.id || p.id_producto,
-        cantidad: p.cantidad,
-      }));
-
-      formData.append("detalles", JSON.stringify(detallesParaBackend));
-
-      // Solo los datos de los productos, sin imágenes
-      productos.forEach((producto) => {
-        const det = detalles?.[producto.id];
-        // Si hubiese imágenes asociadas, se añadirían aquí (en este caso no lo hacemos)
-        // Pero este ejemplo no las envía, ya que no son necesarias para el backend
-      });
-
-      console.log("🔍 Datos enviados al backend:");
-      for (let pair of formData.entries()) {
-        if (pair[1] instanceof File) {
-          console.log(`${pair[0]}: [Archivo] ${pair[1].name}`);
-        } else {
-          console.log(`${pair[0]}:`, pair[1]);
-        }
-      }
-
-      await CrearVenta(formData);
+      console.log("📤 Enviando venta al backend:", venta);
+      await CrearVenta(venta);
 
       alert("Venta realizada con éxito");
       navigate("/gracias");
@@ -218,42 +169,21 @@ const Pago = () => {
 
           <div className="checkout-section">
             <h3>Elige método de pago</h3>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="metodoPago"
-                  value="yape"
-                  checked={metodoPago === "yape"}
-                  onChange={() => setMetodoPago("yape")}
-                />
-                Plim/Yape
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="metodoPago"
-                  value="tarjeta"
-                  checked={metodoPago === "tarjeta"}
-                  onChange={() => setMetodoPago("tarjeta")}
-                />
-                Tarjeta de Crédito/Débito
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="metodoPago"
-                  value="transferencia"
-                  checked={metodoPago === "transferencia"}
-                  onChange={() => setMetodoPago("transferencia")}
-                />
-                Transferencia Bancaria
-              </label>
-            </div>
+            {["yape", "tarjeta", "transferencia"].map((m) => (
+              <div key={m}>
+                <label>
+                  <input
+                    type="radio"
+                    name="metodoPago"
+                    value={m}
+                    checked={metodoPago === m}
+                    onChange={() => setMetodoPago(m)}
+                  />
+                  {m === "yape" ? "Plim/Yape" :
+                   m === "tarjeta" ? "Tarjeta de Crédito/Débito" : "Transferencia Bancaria"}
+                </label>
+              </div>
+            ))}
           </div>
 
           <div className="checkout-section">
@@ -266,12 +196,7 @@ const Pago = () => {
                     src={`/Images/ID_Producto=${idParaImagen}.jpeg`}
                     onError={(e) => (e.target.src = "/Images/logo-kym.png")}
                     alt={p.nombre}
-                    style={{
-                      maxWidth: "120px",
-                      maxHeight: "120px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
+                    style={{ maxWidth: "120px", maxHeight: "120px", objectFit: "contain", borderRadius: "8px" }}
                     className="img-fluid"
                   />
                   <div>
@@ -324,9 +249,7 @@ const Pago = () => {
                 >
                   Verificar Código
                 </button>
-                {codigoVerificado && (
-                  <p style={{ color: "green" }}>Código verificado ✔️</p>
-                )}
+                {codigoVerificado && <p style={{ color: "green" }}>Código verificado ✔️</p>}
               </div>
             )}
 
