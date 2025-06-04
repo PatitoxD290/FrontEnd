@@ -1,59 +1,60 @@
 // UsuariosForm.jsx
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import Swal from "sweetalert2";
 
 const UsuariosForm = ({ show, handleClose, actualizar, usuarioSeleccionado }) => {
-  const [nombres, setNombres] = useState("");
-  const [apellidos, setApellidos] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [correo, setCorreo] = useState("");
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
   const [errores, setErrores] = useState({});
 
   useEffect(() => {
     if (usuarioSeleccionado) {
-      setNombres(usuarioSeleccionado.nombres || "");
-      setApellidos(usuarioSeleccionado.apellidos || "");
-      setTelefono(usuarioSeleccionado.telefono || "");
-      setCorreo(usuarioSeleccionado.correo || "");
+      setUser(usuarioSeleccionado.user || '');
+      setPassword(usuarioSeleccionado.password || '');
     } else {
-      setNombres("");
-      setApellidos("");
-      setTelefono("");
-      setCorreo("");
+      setUser("");
+      setPassword("");
     }
     setErrores({});
   }, [usuarioSeleccionado]);
 
   const validar = () => {
     const nuevosErrores = {};
-    if (!nombres.trim()) nuevosErrores.nombres = "El nombre es obligatorio";
-    if (!apellidos.trim()) nuevosErrores.apellidos = "El apellido es obligatorio";
-    if (!telefono.trim() || !/^\d{7,15}$/.test(telefono)) {
-      nuevosErrores.telefono = "Teléfono inválido (7 a 15 dígitos)";
-    }
-    if (!correo.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
-      nuevosErrores.correo = "Correo electrónico inválido";
-    }
+    if (!user.trim()) nuevosErrores.user = "El usuario es obligatorio";
+   if (!password.trim()) {
+    nuevosErrores.password = "Actualize la contraseña correctamente";
+  } else if (password.length < 8) {
+    nuevosErrores.password = "La contraseña debe tener al menos 8 caracteres";
+  } else if (!/[A-Z]/.test(password)) {
+    nuevosErrores.password = "Debe contener al menos una letra mayúscula";
+  } else if (!/[a-z]/.test(password)) {
+    nuevosErrores.password = "Debe contener al menos una letra minúscula";
+  } else if (!/[0-9]/.test(password)) {
+    nuevosErrores.password = "Debe contener al menos un número";
+  } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    nuevosErrores.password = "Debe contener al menos un carácter especial";
+  }
+  return nuevosErrores;
   };
 
   const manejarEnvio = (e) => {
-    e.preventDefault();
-    if (!validar()) {
-      Swal.fire("Campos inválidos", "Por favor revisa los datos ingresados", "error");
+  e.preventDefault();
+  const nuevosErrores = validar();
+  setErrores(nuevosErrores);
+
+  if (Object.keys(nuevosErrores).length > 0) {
       return;
-    }
+  }
 
-    const usuarioActualizado = { nombres, apellidos, telefono, correo};
-    actualizar(usuarioSeleccionado.id_usuario, usuarioActualizado);
+  const usuarioActualizado = { user, password };
+  actualizar(usuarioSeleccionado.id_usuario, usuarioActualizado);
 
-    setNombres("");
-    setApellidos("");
-    setTelefono("");
-    setCorreo("");
-    setErrores({});
-    handleClose();
-  };
+  setUser("");
+  setPassword("");
+  setErrores({});
+  handleClose();
+};
+
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -62,29 +63,29 @@ const UsuariosForm = ({ show, handleClose, actualizar, usuarioSeleccionado }) =>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={manejarEnvio}>
-          <Form.Group className="mb-3">
-            <Form.Label>Nombres</Form.Label>
+          <Form.Group className="mb-1">
+            <Form.Label>Usuario</Form.Label>
             <Form.Control
               type="text"
-              value={nombres}
-              onChange={(e) => setNombres(e.target.value)}
-              isInvalid={!!errores.nombres}
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              isInvalid={!!errores.user}
             />
             <Form.Control.Feedback type="invalid">
-              {errores.nombres}
+              {errores.user}
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Apellidos</Form.Label>
+            <Form.Label>Contraseña</Form.Label>
             <Form.Control
-              type="text"
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)}
-              isInvalid={!!errores.apellidos}
-            />
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              isInvalid={!!errores.password}
+            /> <br />
             <Form.Control.Feedback type="invalid">
-              {errores.apellidos}
+              {errores.password}
             </Form.Control.Feedback>
           </Form.Group>
 

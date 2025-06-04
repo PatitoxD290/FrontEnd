@@ -210,22 +210,34 @@ const Pago = () => {
 
           <div className="checkout-section">
             <h3>Elige método de pago</h3>
-            {["yape", "tarjeta", "transferencia"].map((m) => (
-              <div key={m}>
-                <label>
-                  <input
-                    type="radio"
-                    name="metodoPago"
-                    value={m}
-                    checked={metodoPago === m}
-                    onChange={() => setMetodoPago(m)}
-                  />
-                  {m === "yape"
-                    ? "Plin/Yape"
-                    : m === "tarjeta"
-                    ? "Tarjeta de Crédito/Débito"
-                    : "Transferencia Bancaria"}
-                </label>
+            {[
+              {
+                categoria: "Billetera Digital",
+                metodos: [
+                  { valor: "Billetera Digital", label: " Yape/Plin" },
+                ],
+              },
+              {
+                categoria: "Pago en Efectivo",
+                metodos: [{ valor: "Efectivo", label: " Pago en Efectivo" }],
+              },
+            ].map((grupo) => (
+              <div key={grupo.categoria}>
+                <strong>{grupo.categoria}:</strong>
+                {grupo.metodos.map((m) => (
+                  <div key={m.valor}>
+                    <label>
+                      <input
+                        type="radio"
+                        name="metodoPago"
+                        value={m.valor}
+                        checked={metodoPago === m.valor}
+                        onChange={() => setMetodoPago(m.valor)}
+                      />
+                      {m.label}
+                    </label>
+                  </div>
+                ))}
               </div>
             ))}
           </div>

@@ -44,7 +44,7 @@ const VentasList = ({ ventas, mostrarDetalles }) => {
         <thead>
           <tr>
             <th>ID Venta</th>
-            <th>ID Cliente</th>
+            <th>Cliente</th>
             <th>Lugar Entrega</th>
             <th>Total</th>
             <th>Forma Pago</th>

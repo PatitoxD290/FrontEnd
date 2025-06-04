@@ -13,6 +13,7 @@
     "frontend": "file:",
     "helmet": "^8.1.0",
     "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "jwt-decode": "^4.0.0",
     "nodemailer": "^7.0.3",
     "react": "^19.1.0",

@@ -46,8 +46,8 @@ const ComprasUsuarioList = ({ compras, seleccionar }) => {
       <Table>
         <thead>
           <tr>
-            <th>ID Compra Usuario</th>
-            <th>ID Usuario</th>
+            <th>ID Compra</th>
+            <th>Usuario</th>
             <th>ID Venta</th>
             <th>Acciones</th>
           </tr>

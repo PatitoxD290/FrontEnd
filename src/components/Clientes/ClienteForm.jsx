@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import Swal from "sweetalert2";
 
-const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSeleccionado }) => {
+const ClienteForm = ({
+  show,
+  handleClose,
+  agregar,
+  actualizar,
+  clienteSeleccionado,
+}) => {
   const [nombres, setNombres] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -29,14 +34,28 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
 
   const validar = () => {
     const nuevosErrores = {};
+
     if (!nombres.trim()) nuevosErrores.nombres = "El nombre es obligatorio";
-    if (!apellidos.trim()) nuevosErrores.apellidos = "El apellido es obligatorio";
-    if (!telefono.trim() || !/^\d{9}$/.test(telefono)) {
-      nuevosErrores.telefono = "Teléfono inválido (7 a 15 dígitos)";
+    if (!apellidos.trim())
+      nuevosErrores.apellidos = "El apellido es obligatorio";
+
+    // Teléfono: exactamente 9 dígitos numéricos
+    if (!telefono.trim()) {
+      nuevosErrores.telefono = "El teléfono es obligatorio";
+    } else if (!/^\d{9}$/.test(telefono)) {
+      nuevosErrores.telefono = "El teléfono debe tener exactamente 9 números";
     }
-    if (!direccion.trim()) nuevosErrores.direccion = "La dirección es obligatoria";
-    if (!dni.trim()) nuevosErrores.dni = "El DNI es obligatorio"; // Validar DNI no vacío
-    else if (dni.length > 8) nuevosErrores.dni = "El DNI no puede tener más de 8 caracteres"; // Validar longitud máxima
+
+    if (!direccion.trim())
+      nuevosErrores.direccion = "La dirección es obligatoria";
+
+    // DNI: exactamente 8 dígitos numéricos
+    if (!dni.trim()) {
+      nuevosErrores.dni = "El DNI es obligatorio";
+    } else if (!/^\d{8}$/.test(dni)) {
+      nuevosErrores.dni = "El DNI debe tener exactamente 8 números";
+    }
+
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
   };
@@ -44,11 +63,6 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
   const manejarEnvio = (e) => {
     e.preventDefault();
     if (!validar()) {
-      Swal.fire(
-        "Campos inválidos",
-        "Por favor revisa los datos ingresados",
-        "error"
-      );
       return;
     }
 
@@ -67,10 +81,11 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
     setApellidos("");
     setTelefono("");
     setDireccion("");
-    setDni(""); // Limpiar el campo DNI
+    setDni("");
     setErrores({});
     handleClose();
   };
+
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -112,9 +127,13 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
             <Form.Control
               type="text"
               value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
+              maxLength={9}
+              onChange={(e) => {
+                const valor = e.target.value.replace(/\D/g, "").slice(0, 9);
+                setTelefono(valor);
+              }}
               isInvalid={!!errores.telefono}
-            />
+            /> <br />
             <Form.Control.Feedback type="invalid">
               {errores.telefono}
             </Form.Control.Feedback>
@@ -139,9 +158,13 @@ const ClienteForm = ({ show, handleClose, agregar, actualizar, clienteSelecciona
             <Form.Control
               type="text"
               value={dni}
-              onChange={(e) => setDni(e.target.value)}
+              maxLength={8}
+              onChange={(e) => {
+                const valor = e.target.value.replace(/\D/g, "").slice(0, 8);
+                setDni(valor);
+              }}
               isInvalid={!!errores.dni}
-            />
+            /> <br />
             <Form.Control.Feedback type="invalid">
               {errores.dni}
             </Form.Control.Feedback>

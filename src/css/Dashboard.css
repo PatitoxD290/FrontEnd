@@ -94,6 +94,25 @@
   background-color: #703030;
 }
 
+/* BOTON GENERAR REPORTE PDF */
+.btn-report {
+  background-color: #e93b50;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: -1rem;
+  margin-top: 3rem;
+  margin-left: 1000px;
+  margin-right: 120px;
+}
+
+.btn-report:hover {
+  background-color: #f85669;
+}
 
 /* GRÁFICOS */
 .graficos-container {
@@ -160,6 +179,123 @@
 .modal-content .btn-details:hover {
   background-color: #a00000;
 }
+
+
+/* MODAL PREVIEW PDF VENTAS */
+.modal-overlay-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+/* Contenedor del modal con sombra y borde redondeado */
+.modal-content-preview {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header con título y botón de cerrar */
+.modal-header-preview {
+  padding: 16px 24px;
+  background: #740000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header-preview h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+/* Botón cerrar estilo moderno */
+.btn-close-preview {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.btn-close-preview:hover {
+  color: #e74c3c;
+}
+
+/* Cuerpo del modal con iframe para vista previa */
+.modal-body-preview {
+  flex-grow: 1;
+  padding: 16px 24px;
+  overflow: auto;
+}
+
+/* Footer con botón descargar */
+.modal-footer-preview {
+  padding: 12px 24px;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.btn-download {
+  background-color: #e93b50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-download:hover {
+  background-color: #f85669;
+}
+
+
+/* PAGINACION */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: -10px;
+  margin-bottom: 100px;
+}
+
+.paginacion button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.paginacion button.activo {
+  background-color: #740000;
+  color: white;
+  font-weight: bold;
+}
+
+.paginacion button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
 
 /* Mensaje de error */
 .error-msg {

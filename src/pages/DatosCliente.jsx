@@ -30,7 +30,26 @@ const DatosCliente = () => {
   }, []);
 
   const handleChange = (e) => {
-    setCliente({ ...cliente, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "nombres" || name === "apellidos") {
+      // Solo letras y espacios
+      if (/^[a-zA-Z\s]*$/.test(value)) {
+        setCliente({ ...cliente, [name]: value });
+      }
+    } else if (name === "telefono") {
+      // Solo números, máx 9 caracteres
+      if (/^\d{0,9}$/.test(value)) {
+        setCliente({ ...cliente, [name]: value });
+      }
+    } else if (name === "dni") {
+      // Solo números, máx 8 caracteres
+      if (/^\d{0,8}$/.test(value)) {
+        setCliente({ ...cliente, [name]: value });
+      }
+    } else {
+      setCliente({ ...cliente, [name]: value });
+    }
   };
 
   const productos = state?.productos || [];
@@ -39,7 +58,12 @@ const DatosCliente = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!cliente.nombres || !cliente.apellidos || !cliente.telefono || !cliente.direccion) {
+    if (
+      !cliente.nombres ||
+      !cliente.apellidos ||
+      !cliente.telefono ||
+      !cliente.direccion
+    ) {
       return alert("Todos los campos obligatorios deben estar llenos");
     }
 
@@ -115,10 +139,11 @@ const DatosCliente = () => {
         <div className="form-group">
           <label>Teléfono:</label>
           <input
-            type="number"
+            type="text"
             name="telefono"
             value={cliente.telefono}
             onChange={handleChange}
+            maxLength="9"
             required
           />
         </div>
@@ -136,7 +161,7 @@ const DatosCliente = () => {
         <div className="form-group">
           <label>DNI:</label>
           <input
-            type="number"
+            type="text"
             name="dni"
             value={cliente.dni}
             onChange={handleChange}

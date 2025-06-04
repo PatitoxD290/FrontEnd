@@ -38,7 +38,6 @@ body {
 /* TABLAS GESTION USUARIOS Y CLIENTES */
 .table {
   width: 120%;
-  margin: 2rem auto;
   background-color: rgba(255, 255, 255, 0.97);
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);

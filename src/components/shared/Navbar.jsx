@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   // Comparación exacta respetando mayúsculas y minúsculas
-  const esDennys = user?.user === "Godigo";
+  const admin = user?.user === "edu1912";
 
   return (
     <BsNavbar fixed="top">
@@ -33,17 +33,15 @@ const Navbar = () => {
         <BsNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {user ? (
-              esDennys ? (
+              admin ? (
                 <>
                   <Nav.Link as={Link} to="/usuarios">Usuarios</Nav.Link>
                   <Nav.Link as={Link} to="/clientes">Clientes</Nav.Link>
-                  <Nav.Link as={Link} to="/compra-usuario">Compras Usuarios</Nav.Link>
                   <Nav.Link as={Link} to="/dashboard">Ventas</Nav.Link>
                   <Nav.Link as={Link} to="/logs">Logs</Nav.Link>
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/compra-usuario">Compras Usuarios</Nav.Link>
                 </>
               )
             ) : (
@@ -56,10 +54,9 @@ const Navbar = () => {
               <Dropdown.Toggle>
                 {user.user?.toUpperCase()}
               </Dropdown.Toggle>
-
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => alert("Creado por El Mejor Grupo de DSI V 😜")}>
-                  Acerca de
+                <Dropdown.Item as={Link} to="/compra-usuario" >
+                 Mis Compras
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>

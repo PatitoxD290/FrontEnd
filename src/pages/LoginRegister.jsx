@@ -42,9 +42,34 @@ const LoginRegister = () => {
     setIsCodeValid(false); // Reseteamos la validación del código
   };
 
+  const validarEmail = (email) => {
+  // Expresión regular simple para validar email
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const validarPassword = (password) => {
+  // Mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+};
+
+
 // Función para manejar el registro de un nuevo usuario
 const handleRegister = async (e) => {
   e.preventDefault();
+
+  if (!validarEmail(email)) {
+    setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
+    return;
+  }
+
+  if (!validarPassword(password)) {
+    setMessage({
+      text:
+        "La Contraseña debe tener mínimo 8 caracteres, una mayúscula, minúscula, número y carácter especial.",
+      type: "error",
+    });
+    return;
+  }
 
   // Si aún no hemos verificado el código, no permitimos el registro
   if (!isCodeValid) {
@@ -69,6 +94,19 @@ const handleRegister = async (e) => {
   // Función para manejar el login de un usuario
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!validarEmail(email)) {
+    setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
+    return;
+  }
+
+  if (password.length < 8) {
+    setMessage({
+      text: "La contraseña debe tener mínimo 8 caracteres",
+      type: "error",
+    });
+    return;
+  }
     try {
       const res = await loginUsuario(email, password);
       if (res && res.token) {

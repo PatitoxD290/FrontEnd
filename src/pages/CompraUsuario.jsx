@@ -31,7 +31,7 @@ const CompraUsuario = () => {
 
   return (
     <div className="container-gestion">
-      <h2 className="gestion-title">COMPRAS DE USUARIOS</h2>
+      <h2 className="gestion-title">MIS COMPRAS</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 

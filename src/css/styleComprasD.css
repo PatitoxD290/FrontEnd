@@ -6,14 +6,15 @@
   border-radius: 12px;
   max-width: 1000px;
   margin: 2rem auto;
+  margin-top: 6rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   font-family: 'Montserrat', sans-serif;
 }
 
 .titulo-compra {
   font-size: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   text-align: center;
   color: #333;
   font-weight: bold;
