@@ -44,7 +44,7 @@ const UsuarioList = ({ usuarios, seleccionar }) => {
 
   return (
     <>
-      <Table className="admin-table">
+      <Table className="table-gestion">
         <thead>
           <tr>
             <th>ID</th>

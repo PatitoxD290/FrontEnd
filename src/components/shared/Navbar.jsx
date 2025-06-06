@@ -37,6 +37,7 @@ const Navbar = () => {
                 <>
                   <Nav.Link as={Link} to="/usuarios">Usuarios</Nav.Link>
                   <Nav.Link as={Link} to="/clientes">Clientes</Nav.Link>
+                  <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
                   <Nav.Link as={Link} to="/dashboard">Ventas</Nav.Link>
                   <Nav.Link as={Link} to="/logs">Logs</Nav.Link>
                 </>

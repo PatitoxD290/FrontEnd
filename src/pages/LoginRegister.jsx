@@ -43,70 +43,77 @@ const LoginRegister = () => {
   };
 
   const validarEmail = (email) => {
-  // Expresión regular simple para validar email
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
+    // Expresión regular simple para validar email
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
-const validarPassword = (password) => {
-  // Mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo
-  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
-};
+  const validarPassword = (password) => {
+    // Mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+  };
 
+  // Función para manejar el registro de un nuevo usuario
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-// Función para manejar el registro de un nuevo usuario
-const handleRegister = async (e) => {
-  e.preventDefault();
+    if (!validarEmail(email)) {
+      setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
+      return;
+    }
 
-  if (!validarEmail(email)) {
-    setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
-    return;
-  }
+    if (!validarPassword(password)) {
+      setMessage({
+        text: "La Contraseña debe tener mínimo 8 caracteres, una mayúscula, minúscula, número y carácter especial.",
+        type: "error",
+      });
+      return;
+    }
 
-  if (!validarPassword(password)) {
-    setMessage({
-      text:
-        "La Contraseña debe tener mínimo 8 caracteres, una mayúscula, minúscula, número y carácter especial.",
-      type: "error",
-    });
-    return;
-  }
+    // Si aún no hemos verificado el código, no permitimos el registro
+    if (!isCodeValid) {
+      setMessage({
+        text: "Por favor verifica el código antes de continuar",
+        type: "error",
+      });
+      return;
+    }
 
-  // Si aún no hemos verificado el código, no permitimos el registro
-  if (!isCodeValid) {
-    setMessage({ text: "Por favor verifica el código antes de continuar", type: "error" });
-    return;
-  }
+    try {
+      const newUser = { user, email, password };
+      const res = await agregarUsuario(newUser); // Llamamos al servicio de registro
 
-  try {
-    const newUser = { user, email, password };
-    const res = await agregarUsuario(newUser); // Llamamos al servicio de registro
-    
-    // Aquí no guardamos el token porque el backend no lo devuelve
-    setMessage({ text: "¡Registro exitoso! Ahora puedes iniciar sesión.", type: "success" });
+      // Aquí no guardamos el token porque el backend no lo devuelve
+      setMessage({
+        text: "¡Registro exitoso! Ahora puedes iniciar sesión.",
+        type: "success",
+      });
 
-    // Cambiar a la vista de login para que el usuario pueda iniciar sesión
-    setIsLoginActive(true); 
-  } catch (err) {
-    setMessage({ text: err.message || "Error en el registro", type: "error" });
-  }
-};
+      // Cambiar a la vista de login para que el usuario pueda iniciar sesión
+      setIsLoginActive(true);
+    } catch (err) {
+      setMessage({
+        text: err.message || "Error en el registro",
+        type: "error",
+      });
+    }
+  };
 
   // Función para manejar el login de un usuario
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validarEmail(email)) {
-    setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
-    return;
-  }
+      setMessage({ text: "Por favor ingresa un correo válido", type: "error" });
+      return;
+    }
 
-  if (password.length < 8) {
-    setMessage({
-      text: "La contraseña debe tener mínimo 8 caracteres",
-      type: "error",
-    });
-    return;
-  }
+    if (password.length < 8) {
+      setMessage({
+        text: "La contraseña debe tener mínimo 8 caracteres",
+        type: "error",
+      });
+      return;
+    }
     try {
       const res = await loginUsuario(email, password);
       if (res && res.token) {
@@ -130,10 +137,16 @@ const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const res = await enviarCodigoSeguridad(email); // Llamamos al servicio para enviar el código
-      setMessage({ text: res.message || "Código enviado con éxito", type: "success" });
+      setMessage({
+        text: res.message || "Código enviado con éxito",
+        type: "success",
+      });
       setIsVerifyingEmail(true); // Activamos la verificación del código
     } catch (err) {
-      setMessage({ text: err.message || "Error al enviar el código", type: "error" });
+      setMessage({
+        text: err.message || "Error al enviar el código",
+        type: "error",
+      });
     }
   };
 
@@ -141,13 +154,19 @@ const handleRegister = async (e) => {
   const handleVerificarCodigo = async (e) => {
     e.preventDefault();
     if (isNaN(verificationCode) || verificationCode <= 0) {
-      setMessage({ text: "El código debe ser un número válido", type: "error" });
+      setMessage({
+        text: "El código debe ser un número válido",
+        type: "error",
+      });
       return;
     }
 
     try {
       const res = await verificarCodigoSeguridad(verificationCode); // Verificamos el código
-      setMessage({ text: res.message || "Código verificado con éxito", type: "success" });
+      setMessage({
+        text: res.message || "Código verificado con éxito",
+        type: "success",
+      });
       setIsCodeValid(true); // El código es válido, habilitamos el botón de registro
     } catch (err) {
       setMessage({ text: err.message || "Código inválido", type: "error" });
@@ -156,11 +175,15 @@ const handleRegister = async (e) => {
   };
 
   return (
-    <div className="body">
+    <div className="body-login">
       <div className={`container-form ${isLoginActive ? "login" : "register"}`}>
         <div className="information">
           <div className="info-childs">
-            <h2>{isLoginActive ? "¿No tienes una cuenta?" : "¿Ya tienes una cuenta?"}</h2>
+            <h2>
+              {isLoginActive
+                ? "¿No tienes una cuenta?"
+                : "¿Ya tienes una cuenta?"}
+            </h2>
             <input
               type="button"
               value={isLoginActive ? "Registrarse" : "Iniciar Sesión"}
@@ -182,7 +205,10 @@ const handleRegister = async (e) => {
                 {message.text}
               </div>
             )}
-            <form className="form" onSubmit={isLoginActive ? handleLogin : handleRegister}>
+            <form
+              className="form"
+              onSubmit={isLoginActive ? handleLogin : handleRegister}
+            >
               {/* Registro */}
               {!isLoginActive && (
                 <>
@@ -198,6 +224,16 @@ const handleRegister = async (e) => {
 
                   <label>
                     <input
+                      type="password"
+                      placeholder="Contraseña"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </label>
+
+                  <label>
+                    <input
                       type="email"
                       placeholder="Correo Electrónico"
                       value={email}
@@ -206,15 +242,11 @@ const handleRegister = async (e) => {
                     />
                   </label>
 
-                  <label>
-                    <input
-                      type="password"
-                      placeholder="Contraseña"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </label>
+                  {/* Mensaje de requisitos de contraseña */}
+                  <div className="password-info">
+                    La contraseña debe tener mínimo 8 caracteres, incluir una
+                    mayúscula, una minúscula, un número y un carácter especial.
+                  </div>
 
                   {/* Enviar código de verificación */}
                   {!isVerifyingEmail && (
@@ -229,7 +261,8 @@ const handleRegister = async (e) => {
                   {isVerifyingEmail && (
                     <>
                       <label>
-                        <input
+                        <input 
+                          className="input-verify-code"
                           type="number"
                           placeholder="Código de verificación"
                           value={verificationCode}
@@ -240,9 +273,9 @@ const handleRegister = async (e) => {
                       </label>
 
                       <div className="btn-verify-container">
-                      <button onClick={handleVerificarCodigo}>
-                        Verificar código
-                      </button>
+                        <button onClick={handleVerificarCodigo}>
+                          Verificar código
+                        </button>
                       </div>
                     </>
                   )}
@@ -258,25 +291,27 @@ const handleRegister = async (e) => {
                 <>
                   <label>
                     <input
+                      className="input-login"
                       type="email"
                       placeholder="Correo Electrónico"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
-                  </label>
+                  </label> <br />
 
                   <label>
                     <input
+                      className="input-login"
                       type="password"
                       placeholder="Contraseña"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
-                  </label>
+                  </label> <br />
 
-                  <button className="btn-login" >Iniciar Sesión</button>
+                  <button className="btn-login">Iniciar Sesión</button>
                 </>
               )}
 

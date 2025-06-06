@@ -9,39 +9,53 @@ const productosDisponibles = [
 
 const SolicitudContrato = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
-  const [personalizaciones, setPersonalizaciones] = useState([
-    { talla: "", cantidad: 1, nombre: "", numero: "", archivo: null },
+  const [cantidadTotal, setCantidadTotal] = useState(5); // Define el total máximo a repartir entre grupos
+  const [grupos, setGrupos] = useState([
+    { talla: "", material: "", cantidad: 1, nombre: "", numero: "", archivo: null },
   ]);
 
   const manejarCambioProducto = (e) => {
     setProductoSeleccionado(e.target.value);
-    setPersonalizaciones([
-      { talla: "", cantidad: 1, nombre: "", numero: "", archivo: null },
+    setGrupos([
+      { talla: "", material: "", cantidad: 1, nombre: "", numero: "", archivo: null },
     ]);
   };
 
-  const agregarPersonalizacion = () => {
-    setPersonalizaciones([
-      ...personalizaciones,
-      { talla: "", cantidad: 1, nombre: "", numero: "", archivo: null },
+  const obtenerCantidadActual = () =>
+    grupos.reduce((total, g) => total + Number(g.cantidad || 0), 0);
+
+  const agregarGrupo = () => {
+    const cantidadActual = obtenerCantidadActual();
+    if (cantidadActual >= cantidadTotal) {
+      alert("Ya se ha asignado la cantidad total permitida.");
+      return;
+    }
+    setGrupos([
+      ...grupos,
+      { talla: "", material: "", cantidad: 1, nombre: "", numero: "", archivo: null },
     ]);
   };
 
-  const manejarCambioPersonalizacion = (index, campo, valor) => {
-    const nuevas = [...personalizaciones];
-    nuevas[index][campo] = valor;
-    setPersonalizaciones(nuevas);
+  const manejarCambioGrupo = (index, campo, valor) => {
+    const nuevosGrupos = [...grupos];
+    nuevosGrupos[index][campo] = valor;
+    setGrupos(nuevosGrupos);
   };
 
   const manejarArchivo = (index, archivo) => {
-    const nuevas = [...personalizaciones];
-    nuevas[index].archivo = archivo;
-    setPersonalizaciones(nuevas);
+    const nuevosGrupos = [...grupos];
+    nuevosGrupos[index].archivo = archivo;
+    setGrupos(nuevosGrupos);
   };
 
   const enviarFormulario = () => {
+    const total = obtenerCantidadActual();
+    if (total !== cantidadTotal) {
+      alert(`La cantidad total asignada debe ser exactamente ${cantidadTotal}.`);
+      return;
+    }
     console.log("Producto:", productoSeleccionado);
-    console.log("Personalizaciones:", personalizaciones);
+    console.log("Grupos:", grupos);
     alert("Solicitud de contrato enviada (ver consola para detalles)");
   };
 
@@ -67,23 +81,45 @@ const SolicitudContrato = () => {
         </select>
       </div>
 
+      <div className="sc-form-group">
+        <label className="sc-form-label">Cantidad total a producir:</label>
+        <input
+          type="number"
+          min="1"
+          value={cantidadTotal}
+          onChange={(e) => setCantidadTotal(Number(e.target.value))}
+          className="sc-input"
+        />
+      </div>
+
       {productoSeleccionado && (
         <>
-          <h3 className="sc-subtitulo">Personalización</h3>
-          {personalizaciones.map((p, index) => (
+          <h3 className="sc-subtitulo">Grupos de Personalización</h3>
+          {grupos.map((grupo, index) => (
             <div key={index} className="sc-personalizacion-item">
+              {/* CANTIDAD */}
+              <div className="sc-form-group">
+                <label className="sc-form-label">Cantidad:</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={grupo.cantidad}
+                  onChange={(e) =>
+                    manejarCambioGrupo(index, "cantidad", parseInt(e.target.value))
+                  }
+                  className="sc-input"
+                />
+              </div>
+
+              {/* TALLA */}
               <div className="sc-form-group">
                 <label className="sc-form-label">Talla:</label>
                 <select
-                  value={p.talla}
-                  onChange={(e) =>
-                    manejarCambioPersonalizacion(index, "talla", e.target.value)
-                  }
+                  value={grupo.talla}
+                  onChange={(e) => manejarCambioGrupo(index, "talla", e.target.value)}
                   className="sc-select"
                 >
-                  <option value="" disabled hidden>
-                    Seleccione una talla
-                  </option>
+                  <option value="" disabled hidden>Seleccione una talla</option>
                   <optgroup label="Niños">
                     <option value="12">12</option>
                     <option value="14">14</option>
@@ -102,38 +138,31 @@ const SolicitudContrato = () => {
                 </select>
               </div>
 
+              {/* MATERIAL */}
               <div className="sc-form-group">
-                <label className="sc-form-label">Cantidad:</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={p.cantidad}
-                  onChange={(e) =>
-                    manejarCambioPersonalizacion(
-                      index,
-                      "cantidad",
-                      parseInt(e.target.value)
-                    )
-                  }
-                  className="sc-input"
-                />
+                <label className="sc-form-label">Material:</label>
+                <select
+                  value={grupo.material}
+                  onChange={(e) => manejarCambioGrupo(index, "material", e.target.value)}
+                  className="sc-select"
+                >
+                  <option value="" disabled hidden>Seleccione un material</option>
+                  <option value="Algodón">Algodón</option>
+                  <option value="Poliéster">Poliéster</option>
+                  <option value="Mixto">Mixto</option>
+                </select>
               </div>
 
+              {/* OPCIONAL: Nombre y número para polos */}
               {productoSeleccionado.toLowerCase().includes("polo") && (
                 <>
                   <div className="sc-form-group">
-                    <label className="sc-form-label">
-                      Nombre (Personalización):
-                    </label>
+                    <label className="sc-form-label">Nombre (Personalización):</label>
                     <input
                       type="text"
-                      value={p.nombre}
+                      value={grupo.nombre}
                       onChange={(e) =>
-                        manejarCambioPersonalizacion(
-                          index,
-                          "nombre",
-                          e.target.value
-                        )
+                        manejarCambioGrupo(index, "nombre", e.target.value)
                       }
                       className="sc-input"
                     />
@@ -143,13 +172,9 @@ const SolicitudContrato = () => {
                     <label className="sc-form-label">Número:</label>
                     <input
                       type="text"
-                      value={p.numero}
+                      value={grupo.numero}
                       onChange={(e) =>
-                        manejarCambioPersonalizacion(
-                          index,
-                          "numero",
-                          e.target.value
-                        )
+                        manejarCambioGrupo(index, "numero", e.target.value)
                       }
                       className="sc-input"
                     />
@@ -157,6 +182,7 @@ const SolicitudContrato = () => {
                 </>
               )}
 
+              {/* ARCHIVO */}
               <div className="sc-form-group">
                 <label className="sc-form-label">Archivo de referencia:</label>
                 <input
@@ -171,8 +197,8 @@ const SolicitudContrato = () => {
             </div>
           ))}
 
-          <button onClick={agregarPersonalizacion} className="sc-btn-secondary">
-            + Agregar otra personalización
+          <button onClick={agregarGrupo} className="sc-btn-secondary">
+            + Agregar grupo
           </button>
 
           <br />

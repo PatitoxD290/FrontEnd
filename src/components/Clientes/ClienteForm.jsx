@@ -133,7 +133,7 @@ const ClienteForm = ({
                 setTelefono(valor);
               }}
               isInvalid={!!errores.telefono}
-            /> <br />
+            /> 
             <Form.Control.Feedback type="invalid">
               {errores.telefono}
             </Form.Control.Feedback>
@@ -164,7 +164,7 @@ const ClienteForm = ({
                 setDni(valor);
               }}
               isInvalid={!!errores.dni}
-            /> <br />
+            /> 
             <Form.Control.Feedback type="invalid">
               {errores.dni}
             </Form.Control.Feedback>

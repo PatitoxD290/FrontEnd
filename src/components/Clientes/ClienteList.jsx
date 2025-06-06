@@ -44,7 +44,7 @@ const ClienteList = ({ clientes, seleccionar }) => {
 
   return (
     <>
-      <Table>
+      <Table className="table-gestion">
         <thead>
           <tr>
             <th>ID Cliente</th>

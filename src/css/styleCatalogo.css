@@ -76,7 +76,7 @@
 .carrito-contenedor {
   position: fixed;
   top: 80px;  /* Ajusta este valor para bajarlo */
-  right: 20px;
+  right: 10px;
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -213,10 +213,10 @@
     background-color: #640000;
     border: 1px solid #640000; /* Sin borde */
     border-radius: 5px; /* Bordes redondeados */
-    height: 40px;
-    width: 100px;      
+    height: 50px;
+    width: 105px;      
     color: rgb(255, 255, 255); /* Texto blanco */
-    font-size: 70%;
+    font-size: 80%;
     transition: background-color 0.3s; /* Transición suave */
 }
 

@@ -367,9 +367,7 @@ const DetallesCompra = () => {
       })}
 
       <div className="botones-detalles">
-        <button className="btn-secondary" onClick={mostrarDatosEnConsola}>
-          Ver datos que se enviarán
-        </button>
+       
         <button className="btn-primary" onClick={continuar}>
           Continuar con el Pago
         </button>

@@ -16,7 +16,7 @@ body {
 }
 
 
-/* GESTIONES DE USUARIOS Y CLIENTES */
+/* GESTORES */
 .container-gestion {
   padding: 2rem !important;
   margin: 3rem auto !important;
@@ -24,25 +24,31 @@ body {
   min-height: 80vh;
 }
 
+/* TITULO */
 .gestion-title {
   font-size: 3rem;
   text-align: center;
   font-weight: bold;
   color: hsl(0, 0%, 100%);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  margin-top: 70px;
+  margin-top: 3rem;
   margin-bottom: 50px;
 }
 
 
-/* TABLAS GESTION USUARIOS Y CLIENTES */
-.table {
-  width: 120%;
-  background-color: rgba(255, 255, 255, 0.97);
+/* TABLAS GESTORES */
+.table-gestion {
+  width: 100%;
+  max-width: 1500px; /* o el valor que prefieras */
+  margin: auto;
+  font-size: 1rem;
+  text-align: center;
+  border-collapse: collapse;
   border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 /* MODAL DE ACTUALIZACIÓN (USUARIOS Y CLIENTES) */
 /* Título modal */
@@ -77,6 +83,7 @@ label {
   outline: none !important;
 }
 
+
 /* Feedback de error */
 .invalid-feedback {
   color: #a00000 !important;
@@ -94,20 +101,33 @@ label {
   color: black !important;
   margin-right: 5px;
 }
-
 .btn-edit:hover {
   background-color: #e0a800 !important; /* tono más oscuro del amarillo */
   color: white !important;
 }
 
+/* BOTON AGREGAR/ACTUALIZAR EN MODAL */
 .btn-add-primary {
   background-color: #e93b50 !important;
   border: none !important;
   color: white !important;
   border-radius: 8px !important;
 }
-
 .btn-add-primary:hover {
+  background-color: #b31c2d !important;
+}
+
+/* BOTON AGREGAR */
+.btn-add {
+  background-color: #e93b50 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.btn-add:hover {
   background-color: #b31c2d !important;
 }
 
@@ -125,37 +145,7 @@ label {
 }
 
 
-/* SweetAlert2 custom popup (LIST STYLE) */
-.swal-custom-popup {
-  border-radius: 15px !important;
-  font-family: 'Montserrat', sans-serif !important;
-  padding: 2rem !important;
-}
-
-.swal-title {
-  color: #740000 !important;
-  font-size: 1.8rem !important;
-}
-
-.swal-confirm-btn {
-  background-color: #a00000 !important;
-  color: white !important;           /* ✅ Esto es lo que hace que el texto sea blanco */
-  border-radius: 8px !important;
-  padding: 0.6rem 1.2rem !important;
-  font-size: 1rem !important;
-  font-weight: bold !important;
-}
-
-.swal-cancel-btn {
-  background-color: #555 !important;
-  border-radius: 8px !important;
-  padding: 0.6rem 1.2rem !important;
-  font-size: 1rem !important;
-  color: white !important;
-}
-
-
-/* PAGINACION LIST STYLE (USUARIOS, CLIENTES Y DASHBOARD) */
+/* PAGINACION (GESTORES) */
 .Pagination {
   display: flex;
   justify-content: center;

@@ -6,6 +6,7 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Usuarios from "./pages/Usuarios";
 import Clientes from "./pages/Clientes";
+import Productos from "./pages/Productos";
 import Catalogo from "./pages/Catalogo";
 import Pago from "./pages/Pago";
 import Navbar from "./components/shared/Navbar";
@@ -49,6 +50,7 @@ const AppContent = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/usuarios" element={user ? <Usuarios /> : <Navigate to="/acceder" />} />
           <Route path="/clientes" element={user ? <Clientes /> : <Navigate to="/acceder" />} />
+          <Route path="/productos" element={user ? <Productos /> : <Navigate to="/acceder" />} />
           <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/acceder" />} />
           <Route path="/acceder" element={!user ? <LoginRegister /> : <Navigate to="/" />} />
           <Route path="/catalogo" element={<Catalogo />} />

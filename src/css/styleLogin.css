@@ -1,7 +1,6 @@
-.body {
+.body-login {
   min-height: 100vh;
   width: 100vw;
-  background: url('https://www.cronoshare.com/blog/wp-content/uploads/2017/06/ser-costurera-a-domicilio.jpg') no-repeat center center/cover;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -11,7 +10,6 @@
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
 }
 
 .container-form {
@@ -19,9 +17,8 @@
   flex-direction: row;
   border-radius: 20px;
   box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
-  max-width: 1000px;
-  width: 100%;
-  height: auto;
+  max-width: 1200px;
+  height: 550px;
   transition: all 0.3s ease;
   background-color: transparent;
   flex-wrap: nowrap;
@@ -29,7 +26,7 @@
 }
 
 
-/* YA TIENES CUENTA O NO */
+/* PARTE IZQUIERDA */
 .information {
   width: 40%;
   display: flex;
@@ -49,7 +46,7 @@
 }
 
 .info-childs h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #fff;
   margin-bottom: 20px;
   line-height: 1.3;
@@ -79,7 +76,7 @@
 }
 
 
-/* LOGEARSE O REGISTRARSE */
+/* PARTE DERECHA: LOGING & REGISTER */
 .form-information {
   width: 60%;
   background-color: #ffcaca;
@@ -99,14 +96,14 @@
 }
 
 .form-information-childs h2 {
-  font-size: 2rem;
+  font-size: 3rem;
   color: #740000;
   margin-bottom: 25px;
   font-weight: 700;
 }
 
 
-/* INPUTS REGISTER */
+/* INPUTS */
 .form label input {
   flex: 1;
   padding: 12px 15px;
@@ -115,6 +112,40 @@
   outline: none;
   font-size: 1rem;
   font-weight: 500;
+}
+
+/* INPUTS LOGIN */
+.input-login{
+  width: 200%;
+  height: 130%;
+  font-size: 2rem;
+}
+
+.input-verify-code{
+  margin-top: -5rem !important;
+}
+
+/* OLVIDASTE CONTRASEÑA */
+.text-center {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.text-center a {
+  color: #740000;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* INFO CONTRASEÑA */
+.password-info {
+  background-color: #ff7787; /* Fondo suave */
+  border: 1px solid #e93b50; /* Borde azul */
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  width: 90%;
 }
 
 
@@ -141,8 +172,7 @@
 
 .btn-code-container {
   text-align: right;
-  margin-top: -10px;
-  margin-bottom: 10px;
+  margin-top: -4rem;
 }
 
 .btn-code-container button {
@@ -154,8 +184,7 @@
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
-  margin-top: -3rem;
-  margin-right: 15px;
+  margin-right: 76px;
   transition: background-color 0.3s ease;
 }
 
@@ -166,7 +195,6 @@
 
 .btn-verify-container {
   text-align: right;
-  margin-bottom: 10px;
 }
 
 .btn-verify-container button {
@@ -178,8 +206,8 @@
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
-  margin-top: 10px;
-  margin-right: 4rem;
+  margin-top: -10px;
+  margin-right: 10.6rem;
   transition: background-color 0.3s ease;
 }
 
@@ -187,19 +215,6 @@
   background: #f15f70;
 }
 
-
-
-/* OLVIDASTE CONTRASEÑA */
-.text-center {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.text-center a {
-  color: #740000;
-  text-decoration: underline;
-  font-weight: 600;
-}
 
 
 /* RESPONSIVE */

@@ -98,10 +98,10 @@ const LogsViewer = () => {
           <Form.Group>
             <Form.Label>Tipo de operación:</Form.Label>
             <Form.Select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-              <option value="">Todos</option>
-              <option value="INSERT">INSERT</option>
-              <option value="UPDATE">UPDATE</option>
-              <option value="DELETE">DELETE</option>
+              <option value="" >TODOS LOS REGISTROS</option>
+              <option value="INSERT">NUEVOS REGISTROS</option>
+              <option value="UPDATE">REGISTROS ACTUALIZADOS</option>
+              <option value="DELETE">REGISTROS ELIMINADOS</option>
             </Form.Select>
           </Form.Group>
         </Col>

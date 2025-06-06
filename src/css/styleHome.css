@@ -62,7 +62,7 @@
 }
 
 .ver-catalogo .btn {
-  background-color: #e93b50;
+  background-color: #e93b50 !important;
   color: #ddd;
   border: none;
   font-weight: 600;
@@ -72,7 +72,7 @@
 }
 
 .ver-catalogo .btn:hover {
-  background-color: #b31c2d;
+  background-color: #b31c2d !important;
 }
 
 

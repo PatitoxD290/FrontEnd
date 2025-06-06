@@ -157,6 +157,7 @@ const Catalogo = () => {
     <div className="catalogo-background">
       <div className=" mt-3 flex-fill">
         <div className=" my-5 position-relative">
+          
           {/* Carrito flotante */}
           <div className="carrito-contenedor">
             <button
@@ -209,8 +210,7 @@ const Catalogo = () => {
             )}
           </div>
 
-          <br />
-          <h1 className="titulo-catalogo text-center mb-4">CATÁLOGO</h1>
+          <br /> <br /> <br />
 
           {/* Productos paginados */}
           <div className="row justify-content-center" id="catalogo">
