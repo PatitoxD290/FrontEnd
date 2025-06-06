@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Table, Button, Pagination } from "react-bootstrap";
+import { Table, Pagination } from "react-bootstrap";
 
-const ComprasUsuarioList = ({ compras, seleccionar }) => {
+const ComprasUsuarioList = ({ compras }) => {
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 5;
 
@@ -20,11 +20,8 @@ const ComprasUsuarioList = ({ compras, seleccionar }) => {
     let inicio = Math.max(paginaActual - 2, 1);
     let fin = Math.min(paginaActual + 2, totalPaginas);
 
-    if (paginaActual <= 2) {
-      fin = Math.min(5, totalPaginas);
-    } else if (paginaActual >= totalPaginas - 1) {
-      inicio = Math.max(totalPaginas - 4, 1);
-    }
+    if (paginaActual <= 2) fin = Math.min(5, totalPaginas);
+    else if (paginaActual >= totalPaginas - 1) inicio = Math.max(totalPaginas - 4, 1);
 
     for (let i = inicio; i <= fin; i++) {
       paginas.push(
@@ -43,38 +40,36 @@ const ComprasUsuarioList = ({ compras, seleccionar }) => {
 
   return (
     <>
-      <Table>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>ID Compra</th>
             <th>Usuario</th>
-            <th>ID Venta</th>
-            <th>Acciones</th>
+            <th>Productos</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>
-          {comprasPaginadas.map(compra => (
-            <tr key={compra.id_comprasusuario}>
-              <td>{compra.id_comprasusuario}</td>
-              <td>{compra.id_usuario}</td>
+          {comprasPaginadas.map((compra, index) => (
+            <tr key={index}>
               <td>{compra.id_ventas}</td>
-              <td>
-                <Button className="btn-edit" onClick={() => seleccionar(compra)}>
-                  Ver Detalles
-                </Button>
-              </td>
+              <td>{compra.user}</td>
+              <td>{compra.Productos}</td>
+              <td>PEN {parseFloat(compra.total).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      <Pagination className="Pagination">
-        <Pagination.First onClick={irPrimeraPagina} disabled={paginaActual === 1} />
-        <Pagination.Prev onClick={irAnterior} disabled={paginaActual === 1} />
-        {obtenerItemsPaginacion()}
-        <Pagination.Next onClick={irSiguiente} disabled={paginaActual === totalPaginas} />
-        <Pagination.Last onClick={irUltimaPagina} disabled={paginaActual === totalPaginas} />
-      </Pagination>
+      {totalPaginas > 1 && (
+        <Pagination className="justify-content-center">
+          <Pagination.First onClick={irPrimeraPagina} disabled={paginaActual === 1} />
+          <Pagination.Prev onClick={irAnterior} disabled={paginaActual === 1} />
+          {obtenerItemsPaginacion()}
+          <Pagination.Next onClick={irSiguiente} disabled={paginaActual === totalPaginas} />
+          <Pagination.Last onClick={irUltimaPagina} disabled={paginaActual === totalPaginas} />
+        </Pagination>
+      )}
     </>
   );
 };

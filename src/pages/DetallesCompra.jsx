@@ -366,12 +366,15 @@ const DetallesCompra = () => {
         );
       })}
 
-      <div className="botones-detalles">
-       
-        <button className="btn-primary" onClick={continuar}>
-          Continuar con el Pago
-        </button>
-      </div>
+<div className="botones-detalles">
+  <button className="btn-primary" onClick={continuar}>
+    Continuar con el Pago
+  </button>
+  <button className="btn-primary" onClick={mostrarDatosEnConsola}>
+    Mostrar datos por consola
+  </button>
+</div>
+
     </div>
   );
 };

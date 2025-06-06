@@ -5,6 +5,11 @@ const obtenerToken = () => {
   return localStorage.getItem("token");
 };
 
+// Obtener el id_usuario del localStorage
+export const obtenerIdUsuario = () => {
+  return localStorage.getItem("idUsuario");
+};
+
 // Manejar la respuesta de la API
 const manejarRespuesta = async (respuesta) => {
   if (!respuesta.ok) {
@@ -40,7 +45,13 @@ const hacerPeticion = async (url, metodo = 'GET', datos = null) => {
   }
 };
 
-// Obtener todas las compras de usuario
+// Obtener todas las compras de un usuario (por su ID desde localStorage)
 export const obtenerComprasUsuario = async () => {
-  return await hacerPeticion(`${API_URL}/compras_usuario`);
+  const idUsuario = obtenerIdUsuario();
+
+  if (!idUsuario) {
+    throw new Error("No se encontró el id del usuario en localStorage");
+  }
+
+  return await hacerPeticion(`${API_URL}/compras_usuario/${idUsuario}`);
 };

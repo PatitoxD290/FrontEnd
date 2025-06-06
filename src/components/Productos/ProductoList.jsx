@@ -45,6 +45,8 @@ const ProductoList = ({ productos, seleccionar }) => {
             <th>ID Categoría</th>
             <th>Material</th>
             <th>Estado</th>
+            <th>Género</th>   {/* agregado */}
+            <th>Edad</th>     {/* agregado */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -59,6 +61,8 @@ const ProductoList = ({ productos, seleccionar }) => {
               <td>{p.id_categoria}</td>
               <td>{p.material}</td>
               <td>{p.estado}</td>
+              <td>{p.genero}</td>  {/* agregado */}
+              <td>{p.edad}</td>    {/* agregado */}
               <td>
                 <Button className="btn-edit" onClick={() => seleccionar(p)}>Editar</Button>
               </td>

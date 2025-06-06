@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   // Comparación exacta respetando mayúsculas y minúsculas
-  const admin = user?.user === "edu1912";
+  const admin = user?.user === "pato";
 
   return (
     <BsNavbar fixed="top">

@@ -45,13 +45,32 @@ const eliminarGrupo = (detallesProducto, grupoIndex) => {
 
 const manejarCambioGrupo = (detallesProducto, grupoIndex, campo, valor) => {
   const nuevosGrupos = [...detallesProducto.grupos];
-  nuevosGrupos[grupoIndex] = { ...nuevosGrupos[grupoIndex], [campo]: valor };
+
+  if (campo === "cantidad") {
+    const sumaSinEste = nuevosGrupos.reduce((total, grupo, idx) => {
+      return idx !== grupoIndex ? total + grupo.cantidad : total;
+    }, 0);
+
+    const maxPermitido = detallesProducto.cantidad || Infinity; // Por si lo agregás luego
+    const nuevaCantidad = parseInt(valor) || 1;
+
+    if (sumaSinEste + nuevaCantidad > maxPermitido) {
+      // Si te pasás, quedate con el valor anterior
+      return detallesProducto;
+    }
+  }
+
+  nuevosGrupos[grupoIndex] = {
+    ...nuevosGrupos[grupoIndex],
+    [campo]: valor,
+  };
 
   return {
     ...detallesProducto,
     grupos: nuevosGrupos,
   };
 };
+
 
 const manejarCambioCampoSimple = (detallesProducto, campo, valor) => {
   return {
@@ -62,20 +81,25 @@ const manejarCambioCampoSimple = (detallesProducto, campo, valor) => {
 
 const concatenarTallas = (producto, detalles) => {
   if (producto.cantidad > 1) {
-    return detalles.grupos
+    const grupos = detalles.grupos || [];
+
+    return grupos
       .map((grupo) => {
-        const t = grupo.talla.trim().toUpperCase();
-        if (grupo.cantidad > 1) {
-          return `${grupo.cantidad}-${t}`;
-        } else {
-          return t;
-        }
+        const t = grupo.talla?.trim().toUpperCase();
+
+        // Validar que hay una talla definida
+        if (!t) return "";
+
+        // Formato: 2-M o solo M si cantidad = 1
+        return grupo.cantidad > 1 ? `${grupo.cantidad}-${t}` : t;
       })
+      .filter((val) => val !== "") // Eliminar entradas vacías por seguridad
       .join(", ");
   } else {
-    return detalles.talla.trim().toUpperCase();
+    return detalles.talla?.trim().toUpperCase() || "";
   }
 };
+
 
 
 const validarDetallesDeProductos = (productosSeleccionados, detallesPorProducto) => {

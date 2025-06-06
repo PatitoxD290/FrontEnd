@@ -3,16 +3,24 @@ import axios from "axios";
 // Base URL de la API
 const API_URL = "http://localhost:3001/api/v1";
 
-// Obtener todos los productos del catálogo
-export const obtenerCatalogo = async () => {
+// Obtener todos los productos del catálogo con filtros de género y edad
+export const obtenerCatalogo = async (genero, edad) => {
   try {
-    const response = await axios.get(`${API_URL}/productos-catalogo`);
+    let url = `${API_URL}/productos-catalogo`; // URL base
+
+    // Si se pasan filtros, los agregamos a la URL
+    if (genero || edad) {
+      url += `?genero=${genero || ''}&edad=${edad || ''}`;
+    }
+
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Error al obtener los productos del catálogo:", error);
     return [];
   }
 };
+
 
 
 // Obtener todos los productos con total de stock

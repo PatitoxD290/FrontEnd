@@ -10,6 +10,7 @@ import {
   CrearVenta,
   obtenerIdUsuario,
 } from "../services/negocio";
+import {concatenarTallas} from "../services/DCompraService";
 
 const Pago = () => {
   const location = useLocation();
@@ -139,7 +140,7 @@ const Pago = () => {
         detalles: productos.map((p, index) => {
           const idProducto = p.id || p.id_producto || idsProducto[index];
           const detalleProducto = detalles[idProducto] || {};
-          const tallasConcatenadas = detalleProducto?.talla || "";
+          const tallasConcatenadas = concatenarTallas(p, detalleProducto);
 
           return {
             id_producto: idProducto,

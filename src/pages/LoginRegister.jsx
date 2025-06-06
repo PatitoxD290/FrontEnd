@@ -10,11 +10,14 @@ import {
 } from "../services/usuarioService";
 import { jwtDecode } from "jwt-decode";
 
+
+
 const LoginRegister = () => {
   const { setUser } = useContext(AuthContext); // Contexto de usuario
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showPassword, setShowPassword] = useState(false);
   // Estados del componente
   const [isLoginActive, setIsLoginActive] = useState(true); // Controla si estamos en login o registro
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false); // Controla la verificación del código
@@ -49,7 +52,7 @@ const LoginRegister = () => {
 
   const validarPassword = (password) => {
     // Mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un símbolo
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,])[A-Za-z\d!@#$%^&*.,]{8,}$/.test(password);
   };
 
   // Función para manejar el registro de un nuevo usuario
@@ -63,11 +66,12 @@ const LoginRegister = () => {
 
     if (!validarPassword(password)) {
       setMessage({
-        text: "La Contraseña debe tener mínimo 8 caracteres, una mayúscula, minúscula, número y carácter especial.",
+        text: "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo especial.",
         type: "error",
       });
       return;
     }
+
 
     // Si aún no hemos verificado el código, no permitimos el registro
     if (!isCodeValid) {
@@ -175,158 +179,173 @@ const LoginRegister = () => {
   };
 
   return (
-    <div className="body-login">
-      <div className={`container-form ${isLoginActive ? "login" : "register"}`}>
-        <div className="information">
-          <div className="info-childs">
-            <h2>
-              {isLoginActive
-                ? "¿No tienes una cuenta?"
-                : "¿Ya tienes una cuenta?"}
-            </h2>
-            <input
-              type="button"
-              value={isLoginActive ? "Registrarse" : "Iniciar Sesión"}
-              onClick={toggleForm}
-            />
-          </div>
-        </div>
-
-        <div className="form-information">
-          <div className="form-information-childs">
-            <h2>{isLoginActive ? "Iniciar Sesión" : "Crear una Cuenta"}</h2>
-            {message.text && (
-              <div
-                className={`alert ${
-                  message.type === "error" ? "alert-danger" : "alert-success"
-                }`}
-                role="alert"
-              >
-                {message.text}
-              </div>
-            )}
-            <form
-              className="form"
-              onSubmit={isLoginActive ? handleLogin : handleRegister}
-            >
-              {/* Registro */}
-              {!isLoginActive && (
-                <>
-                  <label>
-                    <input
-                      type="text"
-                      placeholder="Usuario"
-                      value={user}
-                      onChange={(e) => setUserRegister(e.target.value)}
-                      required
-                    />
-                  </label>
-
-                  <label>
-                    <input
-                      type="password"
-                      placeholder="Contraseña"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </label>
-
-                  <label>
-                    <input
-                      type="email"
-                      placeholder="Correo Electrónico"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </label>
-
-                  {/* Mensaje de requisitos de contraseña */}
-                  <div className="password-info">
-                    La contraseña debe tener mínimo 8 caracteres, incluir una
-                    mayúscula, una minúscula, un número y un carácter especial.
-                  </div>
-
-                  {/* Enviar código de verificación */}
-                  {!isVerifyingEmail && (
-                    <div className="btn-code-container">
-                      <button onClick={handleEnviarCodigo}>
-                        Enviar código de verificación
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Verificar código */}
-                  {isVerifyingEmail && (
-                    <>
-                      <label>
-                        <input 
-                          className="input-verify-code"
-                          type="number"
-                          placeholder="Código de verificación"
-                          value={verificationCode}
-                          onChange={(e) => setVerificationCode(e.target.value)}
-                          min="1"
-                          required
-                        />
-                      </label>
-
-                      <div className="btn-verify-container">
-                        <button onClick={handleVerificarCodigo}>
-                          Verificar código
-                        </button>
-                      </div>
-                    </>
-                  )}
-
-                  <button className="btn-login" disabled={!isCodeValid}>
-                    Registrarse
-                  </button>
-                </>
-              )}
-
-              {/* Login */}
-              {isLoginActive && (
-                <>
-                  <label>
-                    <input
-                      className="input-login"
-                      type="email"
-                      placeholder="Correo Electrónico"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </label> <br />
-
-                  <label>
-                    <input
-                      className="input-login"
-                      type="password"
-                      placeholder="Contraseña"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </label> <br />
-
-                  <button className="btn-login">Iniciar Sesión</button>
-                </>
-              )}
-
-              {isLoginActive && (
-                <div className="text-center">
-                  <a className="small" href="/recuperar-contraseña">
-                    ¿Olvidaste tu contraseña?
-                  </a>
-                </div>
-              )}
-            </form>
-          </div>
-        </div>
+<div className="body-login">
+  <div className={`container-form ${isLoginActive ? "login" : "register"}`}>
+    <div className="information">
+      <div className="info-childs">
+        <h2>
+          {isLoginActive
+            ? "¿No tienes una cuenta?"
+            : "¿Ya tienes una cuenta?"}
+        </h2>
+        <input
+          type="button"
+          value={isLoginActive ? "Registrarse" : "Iniciar Sesión"}
+          onClick={toggleForm}
+        />
       </div>
     </div>
+
+    <div className="form-information">
+      <div className="form-information-childs">
+        <h2>{isLoginActive ? "Iniciar Sesión" : "Crear una Cuenta"}</h2>
+        {message.text && (
+          <div
+            className={`alert ${message.type === "error" ? "alert-danger" : "alert-success"}`}
+            role="alert"
+          >
+            {message.text}
+          </div>
+        )}
+
+        <form
+          className="form"
+          onSubmit={isLoginActive ? handleLogin : handleRegister}
+        >
+          {/* Registro */}
+          {!isLoginActive && (
+            <>
+              <label>
+                <input
+                  type="text"
+                  placeholder="Usuario"
+                  value={user}
+                  onChange={(e) => setUserRegister(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label className="password-label">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </label>
+
+              {!validarPassword(password) && password.length > 0 && (
+                <div className="password-requirements">
+                  <small className="text-danger">
+                    La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo especial.
+                  </small>
+                </div>
+              )}
+
+              <label>
+                <input
+                  type="email"
+                  placeholder="Correo Electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </label>
+
+              {!isVerifyingEmail && (
+                <div className="btn-code-container">
+                  <button onClick={handleEnviarCodigo}>
+                    Enviar código de verificación
+                  </button>
+                </div>
+              )}
+
+              {isVerifyingEmail && (
+                <>
+                  <label>
+                    <input
+                      className="input-verify-code"
+                      type="number"
+                      placeholder="Código de verificación"
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                      min="1"
+                      required
+                    />
+                  </label>
+
+                  <div className="btn-verify-container">
+                    <button onClick={handleVerificarCodigo}>
+                      Verificar código
+                    </button>
+                  </div>
+                </>
+              )}
+
+              <button className="btn-login" disabled={!isCodeValid}>
+                Registrarse
+              </button>
+            </>
+          )}
+
+          {/* Login */}
+          {isLoginActive && (
+            <>
+              <label>
+                <input
+                  className="input-login"
+                  type="email"
+                  placeholder="Correo Electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </label> <br />
+
+              <label className="password-label">
+                <input
+                  className="input-login"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </label> <br />
+
+              <button className="btn-login">Iniciar Sesión</button>
+            </>
+          )}
+
+          {isLoginActive && (
+            <div className="text-center">
+              <a className="small" href="/recuperar-contraseña">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
   );
 };
 

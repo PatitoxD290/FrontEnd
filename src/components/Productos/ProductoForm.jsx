@@ -9,6 +9,9 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
   const [idCategoria, setIdCategoria] = useState("");
   const [material, setMaterial] = useState("");
   const [estado, setEstado] = useState("Activo");
+  const [genero, setGenero] = useState("Hombre");   // agregado
+  const [edad, setEdad] = useState("Adultos");      // agregado
+  const [imagen, setImagen] = useState(null);
   const [errores, setErrores] = useState({});
 
   useEffect(() => {
@@ -20,6 +23,9 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
       setIdCategoria(productoSeleccionado.id_categoria || "");
       setMaterial(productoSeleccionado.material || "");
       setEstado(productoSeleccionado.estado || "Activo");
+      setGenero(productoSeleccionado.genero || "Hombre");  // agregado
+      setEdad(productoSeleccionado.edad || "Adultos");      // agregado
+      setImagen(null);
     } else {
       setProducto("");
       setDescripcion("");
@@ -28,6 +34,9 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
       setIdCategoria("");
       setMaterial("");
       setEstado("Activo");
+      setGenero("Hombre");  // agregado
+      setEdad("Adultos");   // agregado
+      setImagen(null);
     }
     setErrores({});
   }, [productoSeleccionado]);
@@ -42,6 +51,13 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
     if (!idCategoria) nuevosErrores.idCategoria = "La categoría es obligatoria";
     if (!material.trim()) nuevosErrores.material = "El material es obligatorio";
 
+    if (!genero) nuevosErrores.genero = "El género es obligatorio"; // agregado
+    if (!edad) nuevosErrores.edad = "La edad es obligatoria";       // agregado
+
+    if (imagen && imagen.type !== "image/jpeg") {
+      nuevosErrores.imagen = "Solo se aceptan archivos JPEG";
+    }
+
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
   };
@@ -50,20 +66,25 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
     e.preventDefault();
     if (!validar()) return;
 
-    const nuevoProducto = {
-      producto,
-      descripcion,
-      precio: parseFloat(precio),
-      costo: parseFloat(costo),
-      id_categoria: idCategoria,
-      material,
-      estado
-    };
+    const formData = new FormData();
+    formData.append("producto", producto);
+    formData.append("descripcion", descripcion);
+    formData.append("precio", parseFloat(precio));
+    formData.append("costo", parseFloat(costo));
+    formData.append("id_categoria", idCategoria);
+    formData.append("material", material);
+    formData.append("estado", estado);
+    formData.append("genero", genero);  // agregado
+    formData.append("edad", edad);      // agregado
+
+    if (imagen) {
+      formData.append("imagen", imagen);
+    }
 
     if (productoSeleccionado) {
-      actualizar(productoSeleccionado.id_producto, nuevoProducto);
+      actualizar(productoSeleccionado.id_producto, formData);
     } else {
-      agregar(nuevoProducto);
+      agregar(formData);
     }
 
     handleClose();
@@ -75,7 +96,31 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
         <Modal.Title>{productoSeleccionado ? "Editar Producto" : "Agregar Producto"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={manejarEnvio}>
+        <Form onSubmit={manejarEnvio} encType="multipart/form-data">
+          {/* ...otros campos... */}
+
+          <Form.Group className="mb-3">
+            <Form.Label>Género</Form.Label>
+            <Form.Select value={genero} onChange={(e) => setGenero(e.target.value)} isInvalid={!!errores.genero}>
+              <option value="">Selecciona...</option>
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">{errores.genero}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Edad</Form.Label>
+            <Form.Select value={edad} onChange={(e) => setEdad(e.target.value)} isInvalid={!!errores.edad}>
+              <option value="">Selecciona...</option>
+              <option value="Niños">Niños</option>
+              <option value="Adolescentes">Adolescentes</option>
+              <option value="Adultos">Adultos</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">{errores.edad}</Form.Control.Feedback>
+          </Form.Group>
+
+          {/* Resto de campos */}
           <Form.Group className="mb-3">
             <Form.Label>Producto</Form.Label>
             <Form.Control
@@ -87,72 +132,7 @@ const ProductoForm = ({ show, handleClose, agregar, actualizar, productoSeleccio
             <Form.Control.Feedback type="invalid">{errores.producto}</Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Descripción</Form.Label>
-            <Form.Control
-              as="textarea"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              isInvalid={!!errores.descripcion}
-            />
-            <Form.Control.Feedback type="invalid">{errores.descripcion}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Precio</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="0.01"
-              value={precio}
-              onChange={(e) => setPrecio(e.target.value)}
-              isInvalid={!!errores.precio}
-            />
-            <Form.Control.Feedback type="invalid">{errores.precio}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Costo</Form.Label>
-            <Form.Control
-              type="number"
-              min="0"
-              step="0.01"
-              value={costo}
-              onChange={(e) => setCosto(e.target.value)}
-              isInvalid={!!errores.costo}
-            />
-            <Form.Control.Feedback type="invalid">{errores.costo}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Categoría (ID)</Form.Label>
-            <Form.Control
-              type="number"
-              value={idCategoria}
-              onChange={(e) => setIdCategoria(e.target.value)}
-              isInvalid={!!errores.idCategoria}
-            />
-            <Form.Control.Feedback type="invalid">{errores.idCategoria}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Material</Form.Label>
-            <Form.Control
-              type="text"
-              value={material}
-              onChange={(e) => setMaterial(e.target.value)}
-              isInvalid={!!errores.material}
-            />
-            <Form.Control.Feedback type="invalid">{errores.material}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Estado</Form.Label>
-            <Form.Select value={estado} onChange={(e) => setEstado(e.target.value)}>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </Form.Select>
-          </Form.Group>
+          {/* Aquí van los demás grupos de formulario que ya tienes... */}
 
           <Button type="submit" className="btn-add-primary">
             {productoSeleccionado ? "Actualizar" : "Agregar"}

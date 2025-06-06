@@ -13,8 +13,17 @@ const Catalogo = () => {
   const carritoRef = useRef(null);
   const [cantidades, setCantidades] = useState({});
 
+  const [filtroGenero, setFiltroGenero] = useState("");
+  const [filtroEdad, setFiltroEdad] = useState("");
+
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  useEffect(() => {
+    console.log("Guardando carrito en localStorage:", carrito);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
+  
 
   // Paginación
   const [paginaActual, setPaginaActual] = useState(1);
@@ -25,15 +34,26 @@ const Catalogo = () => {
   const productosPaginados = productos.slice(indiceInicio, indiceFin);
 
   useEffect(() => {
-    const cargarCatalogo = async () => {
-      const data = await obtenerCatalogo();
-      setProductos(data);
-      const initialCantidades = {};
-      data.forEach((p) => {
-        initialCantidades[p.id_producto] = 1; // Inicializar cantidad como 1
-      });
-      setCantidades(initialCantidades);
-    };
+    const carritoGuardado = localStorage.getItem("carrito");
+    console.log("Carrito guardado en localStorage:", carritoGuardado);
+    if (carritoGuardado) {
+      setCarrito(JSON.parse(carritoGuardado));
+    }
+  }, []);
+  
+
+  const cargarCatalogo = async () => {
+    const data = await obtenerCatalogo(filtroGenero, filtroEdad);
+    setProductos(data);
+    const initialCantidades = {};
+    data.forEach((p) => {
+      initialCantidades[p.id_producto] = 1;
+    });
+    setCantidades(initialCantidades);
+    setPaginaActual(1); // Reiniciar a página 1 al aplicar filtros
+  };
+
+  useEffect(() => {
     cargarCatalogo();
   }, []);
 
@@ -56,44 +76,32 @@ const Catalogo = () => {
   }, [mostrarCarrito]);
 
   const agregarACarrito = (producto, cantidad) => {
-    console.log("Producto recibido:", producto);
-    if (
-      !producto ||
-      isNaN(producto.precio) ||
-      producto.precio <= 0 ||
-      cantidad <= 0
-    )
-      return;
+    if (!producto || isNaN(producto.precio) || producto.precio <= 0 || cantidad <= 0) return;
 
-    // Verificar si ya existe el producto en el carrito
+    const maxCantidad = 10;
     const existingProductIndex = carrito.findIndex(
       (item) => item.producto.id_producto === producto.id_producto
     );
 
-    // Verificar si la cantidad total no excede el límite de 10 unidades por producto
     if (existingProductIndex > -1) {
       const nuevoCarrito = [...carrito];
-      const cantidadTotal =
-        nuevoCarrito[existingProductIndex].cantidad + cantidad;
+      const productoExistente = nuevoCarrito[existingProductIndex];
+      const cantidadTotal = productoExistente.cantidad + cantidad;
 
-      // Limitar cantidad en carrito a 10 unidades como máximo
-      const maxCantidad = 10;
       if (cantidadTotal <= maxCantidad) {
-        nuevoCarrito[existingProductIndex].cantidad = cantidadTotal;
+        nuevoCarrito[existingProductIndex] = {
+          ...productoExistente,
+          cantidad: cantidadTotal,
+        };
         setCarrito(nuevoCarrito);
       } else {
-        alert(
-          `No puedes agregar más de ${maxCantidad} unidades de este producto.`
-        );
+        alert(`No puedes agregar más de ${maxCantidad} unidades de este producto.`);
       }
     } else {
-      const maxCantidad = 10;
       if (cantidad <= maxCantidad) {
         setCarrito([...carrito, { producto, cantidad }]);
       } else {
-        alert(
-          `No puedes agregar más de ${maxCantidad} unidades de este producto.`
-        );
+        alert(`No puedes agregar más de ${maxCantidad} unidades de este producto.`);
       }
     }
   };
@@ -104,7 +112,6 @@ const Catalogo = () => {
     setCarrito(nuevoCarrito);
   };
 
-  // Función de pago actualizada
   const pagar = () => {
     if (!user) {
       navigate("/auth-required");
@@ -133,7 +140,6 @@ const Catalogo = () => {
     });
   };
 
-  // Cálculos
   const total = carrito.reduce(
     (acc, item) => acc + parseFloat(item.producto.precio) * item.cantidad,
     0
@@ -152,13 +158,41 @@ const Catalogo = () => {
     }));
   };
 
-  // Renderizado
   return (
     <div className="catalogo-background">
-      <div className=" mt-3 flex-fill">
-        <div className=" my-5 position-relative">
-          
-          {/* Carrito flotante */}
+      <div className="mt-3 flex-fill">
+        <div className="my-5 position-relative">
+
+          {/* Filtros */}
+          <div className="filtros-container mb-4 text-center">
+            <label className="me-2"></label>
+            <select
+              value={filtroGenero}
+              onChange={(e) => setFiltroGenero(e.target.value)}
+              className="me-4"
+            >
+              <option value="">Todos</option>
+              <option value="Hombre">Masculino</option>
+              <option value="Mujer">Femenino</option>
+            </select>
+
+            <label className="me-2"></label>
+            <select
+              value={filtroEdad}
+              onChange={(e) => setFiltroEdad(e.target.value)}
+            >
+              <option value="">Todas</option>
+              <option value="Niños">Niños</option>
+              <option value="Adolescentes">Adolescentes</option>
+              <option value="Adultos">Adultos</option>
+            </select>
+
+            <button className="ms-4 btn btn-primary" onClick={cargarCatalogo}>
+              Aplicar filtros
+            </button>
+          </div>
+
+          {/* Carrito */}
           <div className="carrito-contenedor">
             <button
               className="btn-carrito"
@@ -210,9 +244,9 @@ const Catalogo = () => {
             )}
           </div>
 
-          <br /> <br /> <br />
+          <br /><br /><br />
 
-          {/* Productos paginados */}
+          {/* Productos */}
           <div className="row justify-content-center" id="catalogo">
             {productosPaginados.map((producto) => (
               <div
@@ -228,7 +262,6 @@ const Catalogo = () => {
                 <h2>{producto.producto}</h2>
                 <p>S/. {parseFloat(producto.precio).toFixed(2)}</p>
 
-                {/* INPUT CANTIDAD */}
                 <div className="cantidad-input-container">
                   <label
                     htmlFor={`cantidad-${producto.id_producto}`}
@@ -248,7 +281,7 @@ const Catalogo = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    onWheel={(e) => e.target.blur()} // 👈 aquí evitamos el scroll accidental
+                    onWheel={(e) => e.target.blur()}
                     className="cantidad-input"
                   />
                 </div>
@@ -271,9 +304,7 @@ const Catalogo = () => {
           {/* Paginación */}
           <div className="CustomPagination">
             <ul className="pagination">
-              <li
-                className={`page-item ${paginaActual === 1 ? "disabled" : ""}`}
-              >
+              <li className={`page-item ${paginaActual === 1 ? "disabled" : ""}`}>
                 <button
                   className="page-link"
                   onClick={() => cambiarPagina(paginaActual - 1)}
@@ -285,9 +316,7 @@ const Catalogo = () => {
               {[...Array(totalPaginas)].map((_, i) => (
                 <li
                   key={i}
-                  className={`page-item ${
-                    paginaActual === i + 1 ? "active" : ""
-                  }`}
+                  className={`page-item ${paginaActual === i + 1 ? "active" : ""}`}
                 >
                   <button
                     className="page-link"
@@ -297,11 +326,7 @@ const Catalogo = () => {
                   </button>
                 </li>
               ))}
-              <li
-                className={`page-item ${
-                  paginaActual === totalPaginas ? "disabled" : ""
-                }`}
-              >
+              <li className={`page-item ${paginaActual === totalPaginas ? "disabled" : ""}`}>
                 <button
                   className="page-link"
                   onClick={() => cambiarPagina(paginaActual + 1)}
@@ -312,6 +337,7 @@ const Catalogo = () => {
               </li>
             </ul>
           </div>
+
         </div>
       </div>
     </div>
