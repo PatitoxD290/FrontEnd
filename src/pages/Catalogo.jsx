@@ -23,7 +23,7 @@ const Catalogo = () => {
     console.log("Guardando carrito en localStorage:", carrito);
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
-  
+
 
   // Paginación
   const [paginaActual, setPaginaActual] = useState(1);
@@ -40,7 +40,7 @@ const Catalogo = () => {
       setCarrito(JSON.parse(carritoGuardado));
     }
   }, []);
-  
+
 
   const cargarCatalogo = async () => {
     const data = await obtenerCatalogo(filtroGenero, filtroEdad);
@@ -254,8 +254,8 @@ const Catalogo = () => {
                 key={producto.id_producto}
               >
                 <img
-                  src={`/Images/ID_Producto=${producto.id_producto}.jpeg`}
-                  onError={(e) => (e.target.src = "/Images/default.jpeg")}
+                  src={`http://localhost:3001/cata/ID_Producto=${producto.id_producto}.jpeg`}
+                  onError={(e) => (e.target.src = "/Images/logo-kym.png")}
                   alt={producto.producto}
                   className="img-fluid"
                 />

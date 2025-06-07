@@ -19,7 +19,6 @@ const manejarRespuesta = async (respuesta) => {
   return await respuesta.json();
 };
 
-// Función para crear un contrato
 export const crearContrato = async ({ material, grupos, archivo }) => {
   const token = obtenerToken();
   const id_usuario = obtenerIdUsuario();
@@ -37,14 +36,19 @@ export const crearContrato = async ({ material, grupos, archivo }) => {
   }).join(" | ");
 
   console.log(archivo);  // Verifica que el archivo no sea null o undefined
+
   // Armar el form data
   const formData = new FormData();
   formData.append("descripcion", `Material: ${material} | ${descripcion}`);
   formData.append("id_usuario", id_usuario);
   formData.append("estado", estado);
   formData.append("fecha_inicio", fecha_inicio);
-  if (archivo) {
-    formData.append("referencia_diseño", archivo);
+  
+  if (archivo && archivo.length > 0) {
+    // Ahora, agregamos cada archivo al formData
+    Array.from(archivo).forEach((file, index) => {
+      formData.append("referencia", file); // Cada archivo se agrega individualmente
+    });
   }
 
   try {
@@ -62,3 +66,4 @@ export const crearContrato = async ({ material, grupos, archivo }) => {
     throw error;
   }
 };
+

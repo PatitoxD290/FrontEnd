@@ -33,9 +33,9 @@ const SolicitudContrato = () => {
   };
 
   const manejarArchivo = (e) => {
-    setArchivo(e.target.files[0]);
+    setArchivo(e.target.files); 
   };
-
+  
   const calcularPrecio = useMemo(() => {
     const preciosMaterial = {
       "Algodón": 5,
@@ -110,9 +110,10 @@ const SolicitudContrato = () => {
         <input
           type="file"
           accept="image/*"
-          name="referencia_diseño"
+          name="referencia"
           onChange={manejarArchivo}
           className="sc-input"
+          multiple  
         />
       </div>
 

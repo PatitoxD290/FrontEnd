@@ -1,5 +1,10 @@
 import axios from "axios";
 
+// Obtener el id_usuario del localStorage
+export const obtenerIdUsuario = () => {
+  return localStorage.getItem("idUsuario");
+};
+
 // Base URL de la API
 const API_URL = "http://localhost:3001/api/v1";
 

@@ -37,35 +37,17 @@ const ProductoList = ({ productos, seleccionar }) => {
       <Table className="table-gestion">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Costo</th>
-            <th>ID Categoría</th>
-            <th>Material</th>
-            <th>Estado</th>
-            <th>Género</th>   {/* agregado */}
-            <th>Edad</th>     {/* agregado */}
-            <th>Acciones</th>
+            <th>ID</th><th>Producto</th><th>Descripción</th><th>Precio</th><th>Costo</th>
+            <th>ID Categoría</th><th>Material</th><th>Estado</th><th>Género</th><th>Edad</th><th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {productosPaginados.map(p => (
             <tr key={p.id_producto}>
-              <td>{p.id_producto}</td>
-              <td>{p.producto}</td>
-              <td>{p.descripcion}</td>
-              <td>{p.precio}</td>
-              <td>{p.costo}</td>
-              <td>{p.id_categoria}</td>
-              <td>{p.material}</td>
-              <td>{p.estado}</td>
-              <td>{p.genero}</td>  {/* agregado */}
-              <td>{p.edad}</td>    {/* agregado */}
-              <td>
-                <Button className="btn-edit" onClick={() => seleccionar(p)}>Editar</Button>
-              </td>
+              <td>{p.id_producto}</td><td>{p.producto}</td><td>{p.descripcion}</td>
+              <td>{p.precio}</td><td>{p.costo}</td><td>{p.categoria}</td>
+              <td>{p.material}</td><td>{p.estado}</td><td>{p.genero}</td><td>{p.edad}</td>
+              <td><Button className="btn-edit" onClick={() => seleccionar(p)}>Editar</Button></td>
             </tr>
           ))}
         </tbody>

@@ -10,7 +10,8 @@ import {
   CrearVenta,
   obtenerIdUsuario,
 } from "../services/negocio";
-import {concatenarTallas} from "../services/DCompraService";
+import { actualizarCliente } from "../services/clienteService";
+import { concatenarTallas } from "../services/DCompraService";
 
 const Pago = () => {
   const location = useLocation();
@@ -59,15 +60,6 @@ const Pago = () => {
     }
   }, []);
 
-  const subtotal = productos.reduce((acc, producto) => {
-    const precio = parseFloat(producto.precio) || 0;
-    const cantidad = parseInt(producto.cantidad) || 0;
-    return acc + precio * cantidad;
-  }, 0);
-
-  const igv = subtotal * 0.05;
-  const totalCalculado = subtotal + igv;
-
   useEffect(() => {
     if (user?.id_usuario) {
       obtenerCorreo(user.id_usuario)
@@ -79,6 +71,15 @@ const Pago = () => {
         });
     }
   }, [user]);
+
+  const subtotal = productos.reduce((acc, producto) => {
+    const precio = parseFloat(producto.precio) || 0;
+    const cantidad = parseInt(producto.cantidad) || 0;
+    return acc + precio * cantidad;
+  }, 0);
+
+  const igv = subtotal * 0.05;
+  const totalCalculado = subtotal + igv;
 
   const enviarCodigoVerificacion = async () => {
     if (!correoUsuario) {
@@ -110,25 +111,30 @@ const Pago = () => {
 
   const procesarPago = async () => {
     if (!user?.id_usuario) return alert("Usuario no autenticado");
-    if (!clienteLocal?.direccion?.trim())
-      return alert("Falta la dirección del cliente");
+    if (!clienteLocal?.direccion?.trim()) return alert("Falta la dirección del cliente");
     if (!productos.length) return alert("No hay productos para procesar");
-    if (!qrEscaneado)
-      return alert("Debes escanear el código QR antes de pagar");
-    if (!clienteLocal?.nombres?.trim())
-      return alert("Faltan los nombres del cliente");
-    if (!clienteLocal?.apellidos?.trim())
-      return alert("Faltan los apellidos del cliente");
+    if (!qrEscaneado) return alert("Debes escanear el código QR antes de pagar");
+    if (!clienteLocal?.nombres?.trim()) return alert("Faltan los nombres del cliente");
+    if (!clienteLocal?.apellidos?.trim()) return alert("Faltan los apellidos del cliente");
     if (!clienteLocal?.dni?.trim()) return alert("Falta el DNI del cliente");
-    if (!clienteLocal?.telefono?.trim())
-      return alert("Falta el número de teléfono del cliente");
+    if (!clienteLocal?.telefono?.trim()) return alert("Falta el número de teléfono del cliente");
     if (!metodoPago) return alert("Debes seleccionar un método de pago");
-    if (!codigoVerificado)
-      return alert("Debes verificar el código de pago antes de continuar");
+    if (!codigoVerificado) return alert("Debes verificar el código de pago antes de continuar");
 
     setProcesando(true);
     try {
       const idCliente = localStorage.getItem("idCliente");
+
+      if (idCliente && idCliente !== "null") {
+        await actualizarCliente(idCliente, {
+          nombres: clienteLocal.nombres,
+          apellidos: clienteLocal.apellidos,
+          telefono: clienteLocal.telefono,
+          direccion: clienteLocal.direccion,
+          dni: clienteLocal.dni,
+        });
+      }
+
       const venta = {
         id_usuario: obtenerIdUsuario(),
         id_cliente: idCliente !== "null" ? idCliente : null,
@@ -150,9 +156,7 @@ const Pago = () => {
         }),
       };
 
-      console.log("📤 Enviando venta al backend:", venta);
       await CrearVenta(venta);
-
       alert("Venta realizada con éxito");
       navigate("/home");
     } catch (error) {
@@ -168,6 +172,10 @@ const Pago = () => {
     enviarCodigoVerificacion();
   };
 
+  const handleDireccionChange = (e) => {
+    setClienteLocal({ ...clienteLocal, direccion: e.target.value });
+  };
+
   return (
     <div className="pagobody">
       <div className="checkout-container">
@@ -180,31 +188,27 @@ const Pago = () => {
                 <span>
                   <strong>{clienteLocal?.nombres || "No definido"}</strong>{" "}
                   <strong>{clienteLocal?.apellidos || "No definido"}</strong>
-                  <br />
                 </span>
               </div>
 
               <div className="dato-cliente">
                 <label>DNI:</label>
-                <span>
-                  <strong>{clienteLocal?.dni || "No definido"}</strong>
-                  <br />
-                </span>
+                <span><strong>{clienteLocal?.dni || "No definido"}</strong></span>
               </div>
 
               <div className="dato-cliente">
                 <label>Teléfono:</label>
-                <span>
-                  <strong>{clienteLocal?.telefono || "No definido"}</strong>
-                  <br />
-                </span>
+                <span><strong>{clienteLocal?.telefono || "No definido"}</strong></span>
               </div>
 
               <div className="dato-cliente">
                 <label>Dirección:</label>
-                <span>
-                  <strong>{clienteLocal?.direccion || "No definido"}</strong>
-                </span>
+                <input
+                  type="text"
+                  value={clienteLocal?.direccion || ""}
+                  onChange={handleDireccionChange}
+                  placeholder="Escribe la dirección"
+                />
               </div>
             </div>
           </div>
@@ -212,16 +216,8 @@ const Pago = () => {
           <div className="checkout-section">
             <h3>Elige método de pago</h3>
             {[
-              {
-                categoria: "Billetera Digital",
-                metodos: [
-                  { valor: "Billetera Digital", label: " Yape/Plin" },
-                ],
-              },
-              {
-                categoria: "Pago en Efectivo",
-                metodos: [{ valor: "Efectivo", label: " Pago en Efectivo" }],
-              },
+              { categoria: "Billetera Digital", metodos: [{ valor: "Billetera Digital", label: " Yape/Plin" }] },
+              { categoria: "Pago en Efectivo", metodos: [{ valor: "Efectivo", label: " Pago en Efectivo" }] },
             ].map((grupo) => (
               <div key={grupo.categoria}>
                 <strong>{grupo.categoria}:</strong>
@@ -325,6 +321,7 @@ const Pago = () => {
               {procesando ? "Procesando..." : "Pagar ahora"}
             </button>
           </div>
+
           <div className="qr-section">
             <img
               src="/Images/qrpago.jpg"

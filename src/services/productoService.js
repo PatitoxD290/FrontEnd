@@ -55,6 +55,24 @@ export const eliminarProducto = async (id_producto) => {
   return await hacerPeticion(`${API_URL}/productos/${id_producto}`, 'DELETE');
 };
 
-export const crearProducto = async (producto) => {
-  return await hacerPeticion(`${API_URL}/productos`, 'POST', producto);
+export const crearProducto = async (formData) => {
+  try {
+    const token = obtenerToken();
+    
+    const config = {
+      method: 'POST',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+      body: formData, // Enviamos FormData directamente
+      credentials: "include",
+    };
+
+    const respuesta = await fetch(`${API_URL}/productos`, config);
+    return await manejarRespuesta(respuesta);
+  } catch (error) {
+    console.error("Error en la creación del producto:", error.message);
+    throw error;
+  }
 };
+
