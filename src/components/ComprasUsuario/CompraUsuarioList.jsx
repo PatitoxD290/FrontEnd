@@ -40,7 +40,7 @@ const ComprasUsuarioList = ({ compras }) => {
 
   return (
     <>
-      <Table striped bordered hover responsive>
+      <Table className="table-gestion">
         <thead>
           <tr>
             <th>ID Compra</th>
@@ -62,7 +62,7 @@ const ComprasUsuarioList = ({ compras }) => {
       </Table>
 
       {totalPaginas > 1 && (
-        <Pagination className="justify-content-center">
+        <Pagination className="Pagination">
           <Pagination.First onClick={irPrimeraPagina} disabled={paginaActual === 1} />
           <Pagination.Prev onClick={irAnterior} disabled={paginaActual === 1} />
           {obtenerItemsPaginacion()}

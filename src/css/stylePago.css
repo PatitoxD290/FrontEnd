@@ -81,13 +81,22 @@
 }
 
 .dato-cliente label {
-  font-weight: 600;
   font-size: 0.9rem;
+  font-weight: bold;
   color: #444;
   margin-bottom: 4px;
 }
 
 .dato-cliente span {
+  font-size: 0.95rem;
+  color: #222;
+  background: #fff;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.dato-cliente input {
   font-size: 0.95rem;
   color: #222;
   background: #fff;

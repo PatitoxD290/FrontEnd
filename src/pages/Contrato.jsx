@@ -33,9 +33,9 @@ const SolicitudContrato = () => {
   };
 
   const manejarArchivo = (e) => {
-    setArchivo(e.target.files); 
+    setArchivo(e.target.files);
   };
-  
+
   const calcularPrecio = useMemo(() => {
     const preciosMaterial = {
       "Algodón": 5,
@@ -113,7 +113,7 @@ const SolicitudContrato = () => {
           name="referencia"
           onChange={manejarArchivo}
           className="sc-input"
-          multiple  
+          multiple
         />
       </div>
 
@@ -123,32 +123,28 @@ const SolicitudContrato = () => {
           type="number"
           min="1"
           value={cantidadTotal}
-          onChange={(e) => setCantidadTotal(Number(e.target.value))}
+          onChange={(e) => {
+            const nuevaCantidad = Number(e.target.value);
+            setCantidadTotal(nuevaCantidad);
+            // Resetear los grupos si es 1
+            if (nuevaCantidad === 1) {
+              setGrupos([{ talla: "", cantidad: 1, nombre: "", numero: "" }]);
+            }
+          }}
           className="sc-input"
         />
       </div>
 
       <h3 className="sc-subtitulo">Grupos de Personalización</h3>
-      {grupos.map((grupo, index) => (
-        <div key={index} className="sc-personalizacion-item">
-          <div className="sc-form-group">
-            <label className="sc-form-label">Cantidad:</label>
-            <input
-              type="number"
-              min="1"
-              value={grupo.cantidad}
-              onChange={(e) =>
-                manejarCambioGrupo(index, "cantidad", e.target.value)
-              }
-              className="sc-input"
-            />
-          </div>
 
+      {/* Modo simple si solo hay 1 cantidad */}
+      {cantidadTotal === 1 ? (
+        <div className="sc-personalizacion-item">
           <div className="sc-form-group">
             <label className="sc-form-label">Talla:</label>
             <select
-              value={grupo.talla}
-              onChange={(e) => manejarCambioGrupo(index, "talla", e.target.value)}
+              value={grupos[0].talla}
+              onChange={(e) => manejarCambioGrupo(0, "talla", e.target.value)}
               className="sc-select"
             >
               <option value="" disabled hidden>
@@ -173,40 +169,111 @@ const SolicitudContrato = () => {
           </div>
 
           <div className="sc-form-group">
-            <label className="sc-form-label">Nombres (uno por línea):</label>
-            <textarea
-              rows={grupo.cantidad}
-              value={grupo.nombre}
-              onChange={(e) => manejarCambioGrupo(index, "nombre", e.target.value)}
-              className="sc-textarea"
-              placeholder="Ej: Juan Pérez&#10;María López"
+            <label className="sc-form-label">Nombre:</label>
+            <input
+              type="text"
+              value={grupos[0].nombre}
+              onChange={(e) => manejarCambioGrupo(0, "nombre", e.target.value)}
+              className="sc-input"
+              placeholder="Ej: Juan Pérez"
             />
           </div>
 
           <div className="sc-form-group">
-            <label className="sc-form-label">Números (uno por línea):</label>
-            <textarea
-              rows={grupo.cantidad}
-              value={grupo.numero}
-              onChange={(e) => manejarCambioGrupo(index, "numero", e.target.value)}
-              className="sc-textarea"
-              placeholder="Ej: 10&#10;23"
+            <label className="sc-form-label">Número:</label>
+            <input
+              type="text"
+              value={grupos[0].numero}
+              onChange={(e) => manejarCambioGrupo(0, "numero", e.target.value)}
+              className="sc-input"
+              placeholder="Ej: 10"
             />
           </div>
 
           <hr className="sc-hr" />
         </div>
-      ))}
+      ) : (
+        grupos.map((grupo, index) => (
+          <div key={index} className="sc-personalizacion-item">
+            <div className="sc-form-group">
+              <label className="sc-form-label">Cantidad:</label>
+              <input
+                type="number"
+                min="1"
+                value={grupo.cantidad}
+                onChange={(e) =>
+                  manejarCambioGrupo(index, "cantidad", e.target.value)
+                }
+                className="sc-input"
+              />
+            </div>
 
-      <button onClick={agregarGrupo} className="sc-btn-secondary">
-        + Agregar grupo
-      </button>
+            <div className="sc-form-group">
+              <label className="sc-form-label">Talla:</label>
+              <select
+                value={grupo.talla}
+                onChange={(e) => manejarCambioGrupo(index, "talla", e.target.value)}
+                className="sc-select"
+              >
+                <option value="" disabled hidden>
+                  Seleccione una talla
+                </option>
+                <optgroup label="Niños">
+                  <option value="12">12</option>
+                  <option value="14">14</option>
+                  <option value="16">16</option>
+                </optgroup>
+                <optgroup label="Jóvenes">
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                </optgroup>
+                <optgroup label="Adultos">
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                  <option value="XXXL">XXXL</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div className="sc-form-group">
+              <label className="sc-form-label">Nombres (uno por línea):</label>
+              <textarea
+                rows={grupo.cantidad}
+                value={grupo.nombre}
+                onChange={(e) => manejarCambioGrupo(index, "nombre", e.target.value)}
+                className="sc-textarea"
+                placeholder="Ej: Juan Pérez&#10;María López"
+              />
+            </div>
+
+            <div className="sc-form-group">
+              <label className="sc-form-label">Números (uno por línea):</label>
+              <textarea
+                rows={grupo.cantidad}
+                value={grupo.numero}
+                onChange={(e) => manejarCambioGrupo(index, "numero", e.target.value)}
+                className="sc-textarea"
+                placeholder="Ej: 10&#10;23"
+              />
+            </div>
+
+            <hr className="sc-hr" />
+          </div>
+        ))
+      )}
+
+      {cantidadTotal > 1 && (
+        <button onClick={agregarGrupo} className="sc-btn-secondary">
+          + Agregar grupo
+        </button>
+      )}
 
       <br />
 
       <div className="sc-form-group">
         <label className="sc-form-label">
-          Valor aproximado: {calcularPrecio} So
+          Valor aproximado: S/. {calcularPrecio} 
         </label>
       </div>
 

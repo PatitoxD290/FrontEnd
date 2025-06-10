@@ -24,6 +24,26 @@ body {
   min-height: 80vh;
 }
 
+.container-gestion-user{
+  padding: 2rem !important;
+  margin: 3rem auto !important;
+  max-width: 1000px;
+  min-height: 80vh;
+}
+
+.container-gestion-user h2{
+  font-size: 3rem;
+  text-align: center;
+  font-weight: bold;
+  color: hsl(0, 0%, 100%);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  margin-top: 3rem;
+  margin-bottom: 50px;
+}
+ 
+
+
+
 /* TITULO */
 .gestion-title {
   font-size: 3rem;

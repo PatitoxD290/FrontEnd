@@ -186,19 +186,19 @@ const Pago = () => {
               <div className="dato-cliente">
                 <label>Nombre completo:</label>
                 <span>
-                  <strong>{clienteLocal?.nombres || "No definido"}</strong>{" "}
-                  <strong>{clienteLocal?.apellidos || "No definido"}</strong>
+                 {clienteLocal?.nombres || "No definido"}{" "}
+                  {clienteLocal?.apellidos || "No definido"}
                 </span>
               </div>
 
               <div className="dato-cliente">
                 <label>DNI:</label>
-                <span><strong>{clienteLocal?.dni || "No definido"}</strong></span>
+                <span>{clienteLocal?.dni || "No definido"}</span>
               </div>
 
               <div className="dato-cliente">
                 <label>Teléfono:</label>
-                <span><strong>{clienteLocal?.telefono || "No definido"}</strong></span>
+                <span>{clienteLocal?.telefono || "No definido"}</span>
               </div>
 
               <div className="dato-cliente">

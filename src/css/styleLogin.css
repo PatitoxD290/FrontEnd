@@ -14,6 +14,7 @@
   --shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
 }
 
+
 /* =======================
    ESTRUCTURA GENERAL
 ========================== */
@@ -42,6 +43,7 @@
   flex-wrap: nowrap;
   transition: all 0.3s ease;
 }
+
 
 /* =======================
    PANEL IZQUIERDO (INFO)
@@ -92,260 +94,6 @@
   outline: none;
 }
 
-/* =======================
-   PANEL DERECHO (FORMULARIO)
-========================== */
-.form-information {
-  width: 60%;
-  background-color: var(--light-bg);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  padding: 30px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-shrink: 1;
-}
-
-.form-information-childs {
-  width: 100%;
-  max-width: 700px;
-}
-
-.form-information-childs h2 {
-  font-size: 3rem;
-  color: var(--dark-red);
-  margin-bottom: 25px;
-  font-weight: var(--font-bold);
-}
-
-/* =======================
-   FORMULARIO & INPUTS
-========================== */
-.form label {
-  display: block;
-  margin-bottom: 15px;
-}
-
-.form input {
-  width: 100%;
-  padding: 12px 15px;
-  border: none;
-  border-radius: var(--border-radius);
-  outline: none;
-  font-size: 1rem;
-  font-weight: 500;
-  box-sizing: border-box;
-}
-
-.input-login {
-  width: 100%; 
-  max-width: 400px;
-  padding: 14px 16px;
-  font-size: 1rem;
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-}
-
-
-
-/* Código de verificación */
-.input-verify-code {
-  margin-bottom: 1rem;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: var(--border-radius);
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-
-/* =======================
-   MENSAJES Y ERRORES
-========================== */
-.alert {
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  text-align: center;
-}
-
-.alert-danger {
-  background-color: var(--danger);
-  color: var(--white);
-}
-
-.alert-success {
-  background-color: #28a745;
-  color: var(--white);
-}
-
-.password-requirements {
-  font-size: 0.85rem;
-  color: var(--danger);
-  margin-top: 5px;
-}
-
-/* =======================
-   BOTONES
-========================== */
-.btn-login {
-  background-color: var(--dark-red);
-  color: var(--white);
-  border-radius: var(--border-radius);
-  padding: 12px 20px;
-  font-weight: var(--font-bold);
-  font-size: 1.1rem;
-  width: 100%;
-  max-width: 280px;
-  border: none;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 15px;
-}
-
-.btn-login:hover {
-  background-color: var(--hover-red);
-}
-
-/* Enviar código */
-.btn-code-container,
-.btn-verify-container {
-  margin-top: 10px;
-  text-align: right;
-}
-
-.btn-code-container button,
-.btn-verify-container button {
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  padding: 8px 16px;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-code-container button:hover,
-.btn-verify-container button:hover {
-  background-color: #c73244;
-}
-
-/* =======================
-   LINKS
-========================== */
-.text-center {
-  margin-top: 25px;
-  text-align: center;
-}
-
-.text-center a {
-  color: var(--dark-red);
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-/* =======================
-   VARIABLES (Opcional)
-========================== */
-:root {
-  --primary-color: #e93b50;
-  --dark-red: #740000;
-  --hover-red: #980202;
-  --light-bg: #ffcaca;
-  --white: #ffffff;
-  --danger: #dc3545;
-  --text-color: #fff;
-  --font-bold: 700;
-  --border-radius: 20px;
-  --shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
-}
-
-/* =======================
-   ESTRUCTURA GENERAL
-========================== */
-.body-login {
-  min-height: 100vh;
-  width: 100vw;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.container-form {
-  display: flex;
-  max-width: 1200px;
-  height: 550px;
-  background-color: transparent;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  flex-wrap: nowrap;
-  transition: all 0.3s ease;
-}
-
-/* =======================
-   PANEL IZQUIERDO (INFO)
-========================== */
-.information {
-  width: 40%;
-  padding: 30px;
-  text-align: center;
-  background-color: var(--primary-color);
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.info-childs {
-  width: 100%;
-}
-
-.info-childs h2 {
-  font-size: 2rem;
-  color: var(--text-color);
-  margin-bottom: 20px;
-  font-weight: var(--font-bold);
-}
-
-.info-childs input {
-  width: 100%;
-  max-width: 250px;
-  padding: 12px 25px;
-  border: 2px solid var(--white);
-  border-radius: var(--border-radius);
-  background: transparent;
-  color: var(--white);
-  font-weight: var(--font-bold);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.info-childs input:hover,
-.info-childs input:focus {
-  background-color: var(--white);
-  color: var(--primary-color);
-  outline: none;
-}
 
 /* =======================
    PANEL DERECHO (FORMULARIO)
@@ -375,6 +123,7 @@
   font-weight: var(--font-bold);
 }
 
+
 /* =======================
    FORMULARIO & INPUTS
 ========================== */
@@ -392,32 +141,31 @@
   font-size: 1rem;
   font-weight: 500;
   box-sizing: border-box;
+  margin-top: 1rem;
 }
 
-.input-login {
-  width: 100%; 
+.input-email {
+  width: 140% !important; 
   max-width: 400px;
-  padding: 14px 16px;
   font-size: 1rem;
   border-radius: 20px;
   border: none;
   outline: none;
+  box-sizing: border-box;
+}
+
+.input-password {
+  width: 140% !important; 
+  max-width: 400px;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  margin-top: 10px !important;
   margin-bottom: 15px;
   box-sizing: border-box;
 }
 
-
-
-/* Código de verificación */
-.input-verify-code {
-  margin-bottom: 1rem;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: var(--border-radius);
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
 
 /* =======================
    MENSAJES Y ERRORES
@@ -440,14 +188,17 @@
   color: var(--white);
 }
 
+
+/* MENSAJE CONTRASEÑA */
 .password-requirements {
   font-size: 0.85rem;
   color: var(--danger);
   margin-top: 5px;
 }
 
+
 /* =======================
-   BOTONES
+   BOTON LOGIN/REGISTER
 ========================== */
 .btn-login {
   background-color: var(--dark-red);
@@ -463,21 +214,29 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 15px;
+  margin-bottom: -20px;
 }
 
 .btn-login:hover {
   background-color: var(--hover-red);
 }
 
-/* Enviar código */
-.btn-code-container,
-.btn-verify-container {
-  margin-top: 10px;
+/* BOTONES VERIFICACION */
+/* Contenedor del botón para enviar código */
+.btn-enviar-code{
+  margin-top: 6px;
   text-align: right;
+  margin-right: 6px;
 }
 
-.btn-code-container button,
-.btn-verify-container button {
+/* Contenedor del botón para verificar código */
+.btn-verify-code {
+  text-align: right;
+  margin-right: 50px;
+}
+
+/* Botón dentro del contenedor para enviar código */
+.btn-enviar-code button {
   background-color: var(--primary-color);
   color: var(--white);
   border: none;
@@ -489,10 +248,79 @@
   transition: background-color 0.3s ease;
 }
 
-.btn-code-container button:hover,
-.btn-verify-container button:hover {
+/* Botón dentro del contenedor para verificar código */
+.btn-verify-code button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover para botón de enviar código */
+.btn-enviar-code button:hover {
   background-color: #c73244;
 }
+
+/* Hover para botón de verificar código */
+.btn-verify-code button:hover {
+  background-color: #c73244;
+}
+
+
+/* =======================
+   VISUAL: TOGGLE PASSWORD
+=========================== */
+.toggle-password-login {
+  position: absolute;
+  right: -5.5rem;
+  top: 48%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--dark-red);
+  padding: 2px;
+  z-index: 10;
+}
+
+.toggle-password-register {
+  position: absolute;
+  right: 15px;
+  top: 63%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--dark-red);
+  padding: 2px;
+  z-index: 10;
+}
+
+.password-label {
+  position: relative;
+}
+
+/* =======================
+   PASSWORD REQUIREMENTS
+=========================== */
+.password-requirements {
+  font-size: 0.85rem;
+  color: var(--danger);
+  background-color: #ffe2e2;
+  padding: 8px 12px;
+  border-left: 4px solid var(--danger);
+  border-radius: var(--border-radius);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
 
 /* =======================
    LINKS
@@ -507,3 +335,66 @@
   text-decoration: underline;
   font-weight: 600;
 }
+
+
+/* =======================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 1024px) {
+  .container-form {
+    flex-direction: column;
+    height: auto;
+    max-width: 95%;
+    margin-top: 4rem;
+  }
+
+  .information {
+    width: 100%;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 20px;
+  }
+
+  .form-information {
+    width: 100%;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    padding: 25px 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-information-childs h2,
+  .info-childs h2 {
+    font-size: 2rem;
+  }
+
+  .btn-login {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  .info-childs input {
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+
+  .toggle-password {
+    font-size: 1rem;
+    right: 10px;
+  }
+
+  .form input {
+    font-size: 0.95rem;
+  }
+
+  .btn-code-container button,
+  .btn-verify-container button {
+    font-size: 0.85rem;
+    padding: 7px 12px;
+  }
+
+  .text-center a {
+    font-size: 0.9rem;
+  }
+}
+
+

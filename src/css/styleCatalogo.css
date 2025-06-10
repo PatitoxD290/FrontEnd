@@ -226,6 +226,55 @@
 }
 
 
+/* Contenedor de filtros */
+.filtros-container {
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* Etiquetas (label) */
+.filtros-container label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+  color: #333;
+}
+
+/* Selects */
+.filtros-container select {
+  padding: 6px 12px;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  min-width: 150px;
+  background-color: #fff;
+}
+
+/* Botón de aplicar filtros */
+.filtros-container button {
+  background-color: #e93b50;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filtros-container button:hover {
+  background-color: #b31c2d;
+}
+
+
 /* PAGINACIÓN PERSONALIZADA */
 .CustomPagination {
   display: flex;

@@ -132,7 +132,7 @@ const DetallesCompra = () => {
 
   return (
     <div className="detalles-background">
-      <h2 className="titulo-compra">Detalles de la Compra</h2>
+      <h2 className="titulo-compra">DETALLES DE LA COMPRA</h2>
 
       {productosSeleccionados.map((producto, index) => {
         const detalles = detallesPorProducto[producto.id] || {
@@ -366,15 +366,15 @@ const DetallesCompra = () => {
         );
       })}
 
-<div className="botones-detalles">
-  <button className="btn-primary" onClick={continuar}>
-    Continuar con el Pago
-  </button>
-  <button className="btn-primary" onClick={mostrarDatosEnConsola}>
-    Mostrar datos por consola
-  </button>
-</div>
+      <div className="botones-detalles">
+        <button className="btn-primary" onClick={continuar}>
+          Continuar con el Pago
+        </button>
 
+        {/* <button className="btn-primary" onClick={mostrarDatosEnConsola}>
+          Mostrar datos por consola
+        </button> */} 
+      </div>
     </div>
   );
 };

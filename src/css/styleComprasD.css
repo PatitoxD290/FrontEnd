@@ -1,7 +1,7 @@
 .detalles-background {
   margin-top: 4rem;
   min-height: 90vh;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   border-radius: 12px;
   max-width: 1000px;
@@ -12,12 +12,13 @@
 }
 
 .titulo-compra {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: -1rem;
   text-align: center;
-  color: #333;
+  color: #8b1e3f;
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .producto-detalle {
@@ -26,13 +27,18 @@
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .producto-detalle h3 {
   font-size: 2rem;
+  font-weight: 550;
   margin-bottom: 0.8rem;
+  color: #5a2a2a;
+}
+
+.producto-detalle p {
   color: #5a2a2a;
 }
 
@@ -74,7 +80,9 @@
 }
 
 .grupos-container h4 {
+  margin-top: 2rem;
   margin-bottom: 1rem;
+  font-weight: bold;
   color: #555;
 }
 

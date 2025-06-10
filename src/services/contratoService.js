@@ -19,7 +19,9 @@ const manejarRespuesta = async (respuesta) => {
   return await respuesta.json();
 };
 
-export const crearContrato = async ({ material, grupos, archivo }) => {
+
+// ATRIBUTOS
+export const crearContrato = async ({ producto, material, grupos, archivo }) => {
   const token = obtenerToken();
   const id_usuario = obtenerIdUsuario();
   const estado = "Pendiente";
@@ -44,6 +46,7 @@ export const crearContrato = async ({ material, grupos, archivo }) => {
   formData.append("estado", estado);
   formData.append("fecha_inicio", fecha_inicio);
   
+
   if (archivo && archivo.length > 0) {
     // Ahora, agregamos cada archivo al formData
     Array.from(archivo).forEach((file, index) => {
